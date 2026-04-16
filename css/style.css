@@ -480,11 +480,38 @@ input, textarea, select { font-family: inherit; }
   flex-direction: column;
   gap: 0;
 }
+/* ── メニュータブ ── */
+.menu-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid var(--ivory-deep);
+  padding-bottom: 0;
+  flex-wrap: wrap;
+}
+.menu-tab {
+  padding: 0.6rem 1.4rem;
+  border: none;
+  background: none;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem;
+  color: var(--text-light);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: all var(--transition);
+  letter-spacing: 0.05em;
+}
+.menu-tab:hover { color: var(--sage); }
+.menu-tab.active { color: var(--sage-dark); border-bottom-color: var(--sage); font-weight: 500; }
+.menu-tab-content { display: none; }
+.menu-tab-content.active { display: block; }
+
 .menu-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 0.5rem;
+  padding: 0.9rem 0.5rem;
   border-bottom: 1px solid rgba(237,227,213,.6);
   transition: background var(--transition);
   gap: 1rem;
@@ -497,16 +524,27 @@ input, textarea, select { font-family: inherit; }
 .menu-item-featured {
   background: rgba(123,158,128,.05);
   border-radius: var(--radius);
-  padding: 1rem 1rem;
+  padding: 0.9rem 1rem;
+}
+.menu-item-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  flex: 1;
 }
 .menu-item-name {
   font-size: 0.95rem;
   color: var(--text);
   line-height: 1.5;
 }
-.menu-note {
-  font-size: 0.8rem;
+.menu-item-time {
+  font-size: 0.75rem;
   color: var(--text-light);
+}
+.menu-note {
+  font-size: 0.78rem;
+  color: var(--text-light);
+  margin-left: 0.3rem;
 }
 .menu-item-price {
   font-family: 'Cormorant Garamond', serif;
@@ -861,6 +899,7 @@ input, textarea, select { font-family: inherit; }
 }
 .timeslot-btn:hover { border-color: var(--sage); color: var(--sage-dark); }
 .timeslot-btn.selected { background: var(--sage); border-color: var(--sage); color: var(--white); }
+.timeslot-btn.booked { background: var(--ivory-mid); border-color: var(--ivory-deep); color: var(--text-light); cursor: not-allowed; text-decoration: line-through; font-size: 0.8rem; }
 
 .selected-datetime {
   display: flex;
@@ -1242,4 +1281,3 @@ input, textarea, select { font-family: inherit; }
   .confirm-label { min-width: 5em; }
   .timeslot-grid { grid-template-columns: repeat(3, 1fr); }
 }
-.timeslot-btn.booked { background: #e8e8e0; border-color: #d0d0c8; color: #aaa; cursor: not-allowed; text-decoration: line-through; font-size: 0.8rem; }
