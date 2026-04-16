@@ -507,6 +507,29 @@ input, textarea, select { font-family: inherit; }
 .menu-tab-content { display: none; }
 .menu-tab-content.active { display: block; }
 
+/* ── フォーム内メニュータブ ── */
+.form-menu-tabs {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+.form-menu-tab {
+  padding: 0.45rem 1.1rem;
+  border: 1px solid var(--ivory-deep);
+  background: var(--ivory);
+  border-radius: 2rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.95rem;
+  color: var(--text-light);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.form-menu-tab:hover { border-color: var(--sage); color: var(--sage); }
+.form-menu-tab.active { background: var(--sage); border-color: var(--sage); color: var(--white); }
+.form-menu-tab-content { display: none; }
+.form-menu-tab-content.active { display: block; }
+
 .menu-item {
   display: flex;
   justify-content: space-between;
