@@ -118,108 +118,144 @@
       </h2>
       <p class="section-sub-text">すべての価格は税込み表示です</p>
 
-      <!-- カット -->
-      <div class="menu-category">
-        <h3 class="menu-category-title">
-          <span class="category-en">Cut</span>
-          <span class="category-ja">カット</span>
-        </h3>
-        <div class="menu-list">
-          <div class="menu-item">
-            <div class="menu-item-name">小顔カット + アイロン仕上げ&レクチャー</div>
-            <div class="menu-item-price">¥5,500</div>
-          </div>
-          <div class="menu-item">
-            <div class="menu-item-name">メンズカット <span class="menu-note">（シャンプー・スタイリング込み）</span></div>
-            <div class="menu-item-price">¥4,400</div>
-          </div>
-          <div class="menu-item">
-            <div class="menu-item-name">前髪カット</div>
-            <div class="menu-item-price">¥1,100</div>
-          </div>
-        </div>
+      <!-- タブ -->
+      <div class="menu-tabs">
+        <button class="menu-tab active" data-tab="ladies">Ladies</button>
+        <button class="menu-tab" data-tab="mens">Men's</button>
+        <button class="menu-tab" data-tab="kids">Kids</button>
+        <button class="menu-tab" data-tab="set">Hair Set</button>
       </div>
 
-      <!-- カット + カラー -->
-      <div class="menu-category">
-        <h3 class="menu-category-title">
-          <span class="category-en">Cut + Color</span>
-          <span class="category-ja">カット + カラー</span>
-        </h3>
-        <div class="menu-list">
-          <div class="menu-item">
-            <div class="menu-item-name">小顔カット + 髪質改善ケアinカラー</div>
-            <div class="menu-item-price">¥8,900</div>
-          </div>
-          <div class="menu-item">
-            <div class="menu-item-name">小顔カット + フルカラー + クイックTR</div>
-            <div class="menu-item-price">¥9,900</div>
-          </div>
-          <div class="menu-item">
-            <div class="menu-item-name">小顔カット + フルカラー + 新システムTR</div>
-            <div class="menu-item-price">¥12,900</div>
+      <!-- レディース -->
+      <div class="menu-tab-content active" id="tab-ladies">
+
+        <div class="menu-category">
+          <h3 class="menu-category-title"><span class="category-en">Cut</span><span class="category-ja">カット</span></h3>
+          <div class="menu-list">
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">前髪カット</span><span class="menu-item-time">30分</span></div><div class="menu-item-price">¥1,100</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">前髪＋顔まわりカット</span><span class="menu-item-time">30分</span></div><div class="menu-item-price">¥2,200</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">小顔cut <span class="menu-note">シャンプー・ブロー込</span></span><span class="menu-item-time">60分</span></div><div class="menu-item-price">¥5,500</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">シャンプー＋ブロー</span><span class="menu-item-time">30分</span></div><div class="menu-item-price">¥2,200</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">ブローのみ</span><span class="menu-item-time">20分</span></div><div class="menu-item-price">¥1,650</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">アイロン仕上げ</span><span class="menu-item-time">20分</span></div><div class="menu-item-price">¥2,200</div></div>
           </div>
         </div>
+
+        <div class="menu-category">
+          <h3 class="menu-category-title"><span class="category-en">Cut + Color</span><span class="category-ja">カット＋カラー</span></h3>
+          <div class="menu-list">
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">小顔cut＋ケアinカラー</span><span class="menu-item-time">120分</span></div><div class="menu-item-price">¥8,900</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">小顔cut＋カラー＋クイックTR</span><span class="menu-item-time">120分</span></div><div class="menu-item-price">¥9,900</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">小顔cut＋カラー＋システムTR</span><span class="menu-item-time">150分</span></div><div class="menu-item-price">¥12,900</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">小顔cut＋カラー＋髪質改善TR</span><span class="menu-item-time">150分</span></div><div class="menu-item-price">¥15,900</div></div>
+            <div class="menu-item menu-item-featured"><div class="menu-item-left"><span class="menu-item-name">小顔cut＋カラー＋プレミアム髪質改善TR</span><span class="menu-item-time">150分</span></div><div class="menu-item-price">¥17,900</div></div>
+          </div>
+        </div>
+
+        <div class="menu-category">
+          <h3 class="menu-category-title"><span class="category-en">Treatment</span><span class="category-ja">トリートメント</span></h3>
+          <div class="menu-list">
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">クイックTR</span><span class="menu-item-time">10分</span></div><div class="menu-item-price">¥1,100</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">システムTR <span class="menu-note">3step</span></span><span class="menu-item-time">20分</span></div><div class="menu-item-price">¥3,000</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">髪質改善TR</span><span class="menu-item-time">30分</span></div><div class="menu-item-price">¥5,000</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">集中補修TR</span><span class="menu-item-time">30分</span></div><div class="menu-item-price">¥6,000</div></div>
+          </div>
+        </div>
+
+        <div class="menu-category">
+          <h3 class="menu-category-title"><span class="category-en">Color</span><span class="category-ja">カラー</span></h3>
+          <div class="menu-list">
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">イヤリングカラー <span class="menu-note">要相談</span></span><span class="menu-item-time">120分</span></div><div class="menu-item-price">¥8,800</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">インナーカラー <span class="menu-note">要相談</span></span><span class="menu-item-time">150分</span></div><div class="menu-item-price">¥14,000</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">ケアブリーチWカラー <span class="menu-note">カット別・要相談</span></span><span class="menu-item-time">180分</span></div><div class="menu-item-price">¥18,000</div></div>
+          </div>
+        </div>
+
+        <div class="menu-category">
+          <h3 class="menu-category-title"><span class="category-en">Perm</span><span class="category-ja">パーマ</span></h3>
+          <div class="menu-list">
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">カット＋パーマ</span><span class="menu-item-time">150分</span></div><div class="menu-item-price">¥11,000</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">部分パーマ <span class="menu-note">要相談</span></span><span class="menu-item-time">90分</span></div><div class="menu-item-price">¥4,400〜</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">デジタルパーマ <span class="menu-note">追加メニュー</span></span><span class="menu-item-time">+30分</span></div><div class="menu-item-price">+¥2,000</div></div>
+          </div>
+        </div>
+
+        <div class="menu-category">
+          <h3 class="menu-category-title"><span class="category-en">Straight</span><span class="category-ja">縮毛矯正</span></h3>
+          <div class="menu-list">
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">前髪縮毛矯正</span><span class="menu-item-time">120分</span></div><div class="menu-item-price">¥8,800</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">縮毛矯正＋小顔cut</span><span class="menu-item-time">180分</span></div><div class="menu-item-price">¥16,000</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">カット＋縮毛矯正＋システムTR</span><span class="menu-item-time">180分</span></div><div class="menu-item-price">¥21,000</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">Premium縮毛矯正＋cut</span><span class="menu-item-time">180分</span></div><div class="menu-item-price">¥18,000</div></div>
+            <div class="menu-item menu-item-featured"><div class="menu-item-left"><span class="menu-item-name">カット＋Premium縮毛矯正＋髪質改善TR</span><span class="menu-item-time">180分</span></div><div class="menu-item-price">¥23,000</div></div>
+          </div>
+        </div>
+
       </div>
 
-      <!-- カット + カラー + TR -->
-      <div class="menu-category">
-        <h3 class="menu-category-title">
-          <span class="category-en">Cut + Color + TR</span>
-          <span class="category-ja">カット + カラー + トリートメント</span>
-        </h3>
-        <div class="menu-list">
-          <div class="menu-item">
-            <div class="menu-item-name">髪質改善カラー + 小顔カット + クイックTR</div>
-            <div class="menu-item-price">¥11,000</div>
-          </div>
-          <div class="menu-item">
-            <div class="menu-item-name">髪質改善カラー + 小顔カット + 新システムTR</div>
-            <div class="menu-item-price">¥13,900</div>
-          </div>
-          <div class="menu-item">
-            <div class="menu-item-name">新髪質改善TR + ケアカラー + 小顔カット</div>
-            <div class="menu-item-price">¥15,900</div>
-          </div>
-          <div class="menu-item menu-item-featured">
-            <div class="menu-item-name">新プレミアム髪質改善TR + カラー + カット</div>
-            <div class="menu-item-price">¥17,900</div>
+      <!-- メンズ -->
+      <div class="menu-tab-content" id="tab-mens">
+
+        <div class="menu-category">
+          <h3 class="menu-category-title"><span class="category-en">Cut</span><span class="category-ja">カット</span></h3>
+          <div class="menu-list">
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">刈り上げのみ <span class="menu-note">サイド・バックのみ</span></span><span class="menu-item-time">20〜30分</span></div><div class="menu-item-price">¥2,200</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">眉カット</span><span class="menu-item-time">10〜15分</span></div><div class="menu-item-price">¥1,100</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">メンズカット <span class="menu-note">シャンプー・スタイリング込</span></span><span class="menu-item-time">60分</span></div><div class="menu-item-price">¥4,400</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">メンズカット＋眉カット</span><span class="menu-item-time">60分</span></div><div class="menu-item-price">¥5,500</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">メンズカット＋炭酸スパ</span><span class="menu-item-time">60分</span></div><div class="menu-item-price">¥5,500</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">ヘッドスパ</span><span class="menu-item-time">30分</span></div><div class="menu-item-price">¥3,300</div></div>
           </div>
         </div>
+
+        <div class="menu-category">
+          <h3 class="menu-category-title"><span class="category-en">Cut + Color</span><span class="category-ja">カット＋カラー</span></h3>
+          <div class="menu-list">
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">メンズカット＋カラー</span><span class="menu-item-time">120分</span></div><div class="menu-item-price">¥8,900</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">メンズカット＋白髪染め</span><span class="menu-item-time">120分</span></div><div class="menu-item-price">¥9,900〜</div></div>
+          </div>
+        </div>
+
+        <div class="menu-category">
+          <h3 class="menu-category-title"><span class="category-en">Perm</span><span class="category-ja">パーマ</span></h3>
+          <div class="menu-list">
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">メンズカット＋パーマ</span><span class="menu-item-time">120分</span></div><div class="menu-item-price">¥9,900</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">メンズカット＋ピンパーマ</span><span class="menu-item-time">120分</span></div><div class="menu-item-price">¥10,900</div></div>
+            <div class="menu-item menu-item-featured"><div class="menu-item-left"><span class="menu-item-name">メンズカット＋特殊パーマ <span class="menu-note">ツイスト・スパイラル・要相談</span></span><span class="menu-item-time">150分</span></div><div class="menu-item-price">¥12,900</div></div>
+          </div>
+        </div>
+
       </div>
 
-      <!-- 縮毛矯正・パーマ -->
-      <div class="menu-category">
-        <h3 class="menu-category-title">
-          <span class="category-en">Straight / Perm</span>
-          <span class="category-ja">縮毛矯正・パーマ</span>
-        </h3>
-        <div class="menu-list">
-          <div class="menu-item">
-            <div class="menu-item-name">艶髪ストレート（縮毛矯正）+ 小顔カット</div>
-            <div class="menu-item-price">¥16,000</div>
-          </div>
-          <div class="menu-item">
-            <div class="menu-item-name">ケア成分in縮毛矯正 + 小顔カット</div>
-            <div class="menu-item-price">¥18,000</div>
-          </div>
-          <div class="menu-item">
-            <div class="menu-item-name">ウェーブパーマ + 小顔カット</div>
-            <div class="menu-item-price">¥11,000</div>
+      <!-- キッズ・学生 -->
+      <div class="menu-tab-content" id="tab-kids">
+
+        <div class="menu-category">
+          <h3 class="menu-category-title"><span class="category-en">Kids & Students</span><span class="category-ja">キッズ・学生カット</span></h3>
+          <div class="menu-list">
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">キッズカット <span class="menu-note">未就学児</span></span><span class="menu-item-time">30分</span></div><div class="menu-item-price">¥2,200</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">キッズカット <span class="menu-note">小学生</span></span><span class="menu-item-time">30〜40分</span></div><div class="menu-item-price">¥2,750</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">ジュニアカット <span class="menu-note">中学生</span></span><span class="menu-item-time">45分</span></div><div class="menu-item-price">¥3,300</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">学生カット <span class="menu-note">高校生</span></span><span class="menu-item-time">50〜60分</span></div><div class="menu-item-price">¥3,850</div></div>
           </div>
         </div>
+
       </div>
 
-      <!-- オプション -->
-      <div class="menu-option-block">
-        <h3 class="option-title">追加オプション <span class="option-title-sub">（すべてのメニューに追加可能）</span></h3>
-        <div class="option-list">
-          <div class="option-chip">眉カット <strong>+¥1,100</strong></div>
-          <div class="option-chip">ヘッドスパ <strong>+¥2,200</strong></div>
-          <div class="option-chip">炭酸スパ <strong>+¥1,650</strong></div>
-          <div class="option-chip">クイックTR <strong>+¥1,100</strong></div>
+      <!-- ヘアセット -->
+      <div class="menu-tab-content" id="tab-set">
+
+        <div class="menu-category">
+          <h3 class="menu-category-title"><span class="category-en">Hair Set</span><span class="category-ja">ヘアセット</span></h3>
+          <div class="menu-list">
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">ヘアセット（巻き・簡単アレンジ）</span><span class="menu-item-time">30分</span></div><div class="menu-item-price">¥3,300</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">フルアップ</span><span class="menu-item-time">45分</span></div><div class="menu-item-price">¥4,400</div></div>
+            <div class="menu-item menu-item-featured"><div class="menu-item-left"><span class="menu-item-name">成人式／卒業式ヘアセット <span class="menu-note">要相談</span></span><span class="menu-item-time">60分</span></div><div class="menu-item-price">¥6,600</div></div>
+          </div>
         </div>
+
       </div>
+
     </div>
   </section>
 
