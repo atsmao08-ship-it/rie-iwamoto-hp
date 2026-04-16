@@ -3,30 +3,22 @@
    予約フォーム・ナビゲーション・カレンダー
    ============================================ */
 
-// ── 設定 ──────────────────────────────────────
-// GAS デプロイ後にここに URL を貼り付けてください
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbwe3FBKjbzUPzcLlioAszyR7s_TMv3fm1uDDWEGf3ZpuX0WlZyggJYzYyQeFd7cE-6ZjA/exec';
 
-// ============================================
-// Navigation
-// ============================================
 const header = document.getElementById('site-header');
 const hamburger = document.getElementById('hamburger');
 const navLinks = document.getElementById('nav-links');
 
-// スクロール時にヘッダーにシャドウ追加
 window.addEventListener('scroll', () => {
   header.classList.toggle('scrolled', window.scrollY > 30);
 }, { passive: true });
 
-// ハンバーガーメニュー
 hamburger.addEventListener('click', () => {
   const isOpen = navLinks.classList.toggle('open');
   hamburger.classList.toggle('open', isOpen);
   hamburger.setAttribute('aria-expanded', isOpen);
 });
 
-// ナビリンククリックでメニュー閉じる
 navLinks.querySelectorAll('.nav-link').forEach(link => {
   link.addEventListener('click', () => {
     navLinks.classList.remove('open');
@@ -35,7 +27,6 @@ navLinks.querySelectorAll('.nav-link').forEach(link => {
   });
 });
 
-// アクティブナビ（スクロール連動）
 const sections = document.querySelectorAll('section[id]');
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
@@ -49,15 +40,12 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.4 });
 sections.forEach(s => observer.observe(s));
 
-// ============================================
-// Reservation Form State
-// ============================================
 const state = {
   step: 1,
   menuName: '',
   menuPrice: 0,
-  options: [],       // [{name, price}]
-  date: null,        // Date object
+  options: [],
+  date: null,
   time: '',
   name: '',
   phone: '',
@@ -72,9 +60,6 @@ function formatPrice(n) {
   return '¥' + n.toLocaleString('ja-JP');
 }
 
-// ============================================
-// Step 1 — Menu & Options
-// ============================================
 const totalPriceEl = document.getElementById('total-price');
 const step1Next = document.getElementById('step1-next');
 
@@ -82,7 +67,6 @@ function updatePriceDisplay() {
   totalPriceEl.textContent = formatPrice(totalPrice());
 }
 
-// Base menu radio
 document.querySelectorAll('input[name="base-menu"]').forEach(radio => {
   radio.addEventListener('change', () => {
     state.menuName = radio.value;
@@ -92,7 +76,6 @@ document.querySelectorAll('input[name="base-menu"]').forEach(radio => {
   });
 });
 
-// Option checkboxes
 document.querySelectorAll('input[name="option"]').forEach(cb => {
   cb.addEventListener('change', () => {
     const { value, dataset, checked } = cb;
@@ -106,9 +89,6 @@ document.querySelectorAll('input[name="option"]').forEach(cb => {
   });
 });
 
-// ============================================
-// Step 2 — Calendar
-// ============================================
 let calYear, calMonth;
 
 function initCalendar() {
@@ -130,7 +110,6 @@ function renderCalendar() {
   const firstDay = new Date(calYear, calMonth, 1).getDay();
   const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
 
-  // 空白セル
   for (let i = 0; i < firstDay; i++) {
     const blank = document.createElement('div');
     blank.className = 'cal-day empty';
@@ -156,7 +135,6 @@ function renderCalendar() {
       dayEl.classList.add('disabled');
       dayEl.disabled = true;
     } else {
-      // 選択済み
       if (
         state.date &&
         state.date.getFullYear() === calYear &&
@@ -171,13 +149,28 @@ function renderCalendar() {
   }
 }
 
-function selectDate(date, el) {
+async function selectDate(date, el) {
   state.date = date;
   state.time = '';
-  // 選択スタイルリセット
   document.querySelectorAll('.cal-day.selected').forEach(e => e.classList.remove('selected'));
   el.classList.add('selected');
-  renderTimeSlots();
+
+  const dateStr = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+  const note = document.getElementById('timeslot-note');
+  note.style.display = 'block';
+  note.textContent = '空き時間を確認中…';
+  document.getElementById('timeslot-grid').innerHTML = '';
+
+  let bookedSlots = [];
+  try {
+    const res = await fetch(`${GAS_URL}?date=${encodeURIComponent(dateStr)}`);
+    const json = await res.json();
+    bookedSlots = json.booked || [];
+  } catch (e) {
+    bookedSlots = [];
+  }
+
+  renderTimeSlots(bookedSlots);
   updateDatetimeDisplay();
   checkStep2();
 }
@@ -193,10 +186,9 @@ document.getElementById('cal-next').addEventListener('click', () => {
   renderCalendar();
 });
 
-// ── 時間帯 ──
 const timeSlots = ['9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
 
-function renderTimeSlots() {
+function renderTimeSlots(bookedSlots = []) {
   const grid = document.getElementById('timeslot-grid');
   const note = document.getElementById('timeslot-note');
   note.style.display = 'none';
@@ -205,16 +197,22 @@ function renderTimeSlots() {
   timeSlots.forEach(t => {
     const btn = document.createElement('button');
     btn.type = 'button';
-    btn.className = 'timeslot-btn';
-    btn.textContent = t;
+    const isBooked = bookedSlots.includes(t);
+    btn.className = 'timeslot-btn' + (isBooked ? ' booked' : '');
+    btn.textContent = isBooked ? `${t} 予約済` : t;
+    btn.disabled = isBooked;
+
     if (t === state.time) btn.classList.add('selected');
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.timeslot-btn.selected').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-      state.time = t;
-      updateDatetimeDisplay();
-      checkStep2();
-    });
+
+    if (!isBooked) {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.timeslot-btn.selected').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        state.time = t;
+        updateDatetimeDisplay();
+        checkStep2();
+      });
+    }
     grid.appendChild(btn);
   });
 }
@@ -236,9 +234,6 @@ function checkStep2() {
   document.getElementById('step2-next').disabled = !(state.date && state.time);
 }
 
-// ============================================
-// Step 3 — Customer Info
-// ============================================
 const step3Inputs = ['cust-name', 'cust-phone', 'cust-email'];
 const step3Next = document.getElementById('step3-next');
 
@@ -253,9 +248,6 @@ step3Inputs.forEach(id => {
   document.getElementById(id).addEventListener('input', validateStep3);
 });
 
-// ============================================
-// Step Navigation
-// ============================================
 function showStep(n) {
   document.querySelectorAll('.form-step').forEach(el => el.classList.remove('active'));
   document.querySelectorAll('.progress-step').forEach((el, i) => {
@@ -267,21 +259,17 @@ function showStep(n) {
   if (target) target.classList.add('active');
   state.step = n;
 
-  // スクロール
   document.getElementById('reservation').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-// Step 1 → 2
 document.getElementById('step1-next').addEventListener('click', () => {
   initCalendar();
   showStep(2);
 });
 
-// Step 2 → 3
 document.getElementById('step2-next').addEventListener('click', () => showStep(3));
 document.getElementById('step2-back').addEventListener('click', () => showStep(1));
 
-// Step 3 → 4
 document.getElementById('step3-next').addEventListener('click', () => {
   state.name = document.getElementById('cust-name').value.trim();
   state.phone = document.getElementById('cust-phone').value.trim();
@@ -293,9 +281,6 @@ document.getElementById('step3-next').addEventListener('click', () => {
 document.getElementById('step3-back').addEventListener('click', () => showStep(2));
 document.getElementById('step4-back').addEventListener('click', () => showStep(3));
 
-// ============================================
-// Confirmation Render
-// ============================================
 function renderConfirmation() {
   document.getElementById('conf-menu').textContent = state.menuName;
 
@@ -326,9 +311,6 @@ function renderConfirmation() {
   }
 }
 
-// ============================================
-// Form Submission
-// ============================================
 document.getElementById('btn-submit').addEventListener('click', async () => {
   const btn = document.getElementById('btn-submit');
   btn.textContent = '送信中...';
@@ -351,8 +333,6 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
   };
 
   try {
-    // mode: 'no-cors' は GAS の CORS 制限を回避するため必要
-    // レスポンスは読めないが、GAS 側では正常に処理される
     await fetch(GAS_URL, {
       method: 'POST',
       mode: 'no-cors',
@@ -360,17 +340,12 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
       body: JSON.stringify(payload),
     });
   } catch (e) {
-    // no-cors では fetch が常に type: 'opaque' を返すため catch には入らない
-    console.warn('GAS 送信エラー（GAS_URL が未設定の場合は正常）:', e);
+    console.warn('GAS 送信エラー:', e);
   }
 
-  // GAS_URL が未設定のデモ用フォールバック
   showStep(5);
 });
 
-// ============================================
-// Scroll Reveal (軽量 IntersectionObserver)
-// ============================================
 const revealEls = document.querySelectorAll('.menu-category, .concept-grid, .access-grid, .menu-option-block');
 const revealObs = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
