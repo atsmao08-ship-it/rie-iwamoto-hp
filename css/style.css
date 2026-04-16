@@ -1242,3 +1242,4 @@ input, textarea, select { font-family: inherit; }
   .confirm-label { min-width: 5em; }
   .timeslot-grid { grid-template-columns: repeat(3, 1fr); }
 }
+.timeslot-btn.booked { background: #e8e8e0; border-color: #d0d0c8; color: #aaa; cursor: not-allowed; text-decoration: line-through; font-size: 0.8rem; }
