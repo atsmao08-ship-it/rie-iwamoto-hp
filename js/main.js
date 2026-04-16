@@ -8,7 +8,7 @@
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbwe3FBKjbzUPzcLlioAszyR7s_TMv3fm1uDDWEGf3ZpuX0WlZyggJYzYyQeFd7cE-6ZjA/exec';
 
 // ============================================
-// Menu Tabs
+// Menu Tabs（メニューセクション）
 // ============================================
 document.querySelectorAll('.menu-tab').forEach(tab => {
   tab.addEventListener('click', () => {
@@ -16,6 +16,18 @@ document.querySelectorAll('.menu-tab').forEach(tab => {
     document.querySelectorAll('.menu-tab-content').forEach(c => c.classList.remove('active'));
     tab.classList.add('active');
     document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+  });
+});
+
+// ============================================
+// Form Menu Tabs（予約フォーム内タブ）
+// ============================================
+document.querySelectorAll('.form-menu-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.form-menu-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.form-menu-tab-content').forEach(c => c.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.ftab).classList.add('active');
   });
 });
 
