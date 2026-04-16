@@ -1,99 +1,400 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="RIE IWAMOTO | Kraemer Paris 天神南 – 福岡市中央区のヘアサロン。上質なカット・カラー・髪質改善トリートメントをご提供。">
+  <title>RIE IWAMOTO | Kraemer Paris 天神南</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ===== NAVIGATION ===== -->
+  <header class="site-header" id="site-header">
+    <nav class="nav-inner">
+      <a href="#top" class="nav-logo">
+        <span class="nav-logo-en">RIE IWAMOTO</span>
+        <span class="nav-logo-ja">Kraemer Paris 天神南</span>
+      </a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#concept" class="nav-link">Concept</a></li>
+        <li><a href="#menu" class="nav-link">Menu</a></li>
+        <li><a href="#reservation" class="nav-link">Reservation</a></li>
+        <li><a href="#access" class="nav-link">Access</a></li>
+      </ul>
+      <div class="nav-cta">
+        <a href="https://line.me/R/ti/p/@162dhpwk" target="_blank" rel="noopener" class="btn-line">LINE 予約</a>
+        <a href="https://www.instagram.com/_monrii" target="_blank" rel="noopener" class="btn-insta" aria-label="Instagram">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="メニューを開く" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="top">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-sub fade-in">Kraemer Paris 天神南</p>
+      <h1 class="hero-title fade-in delay-1">
+        <span class="hero-title-en">RIE IWAMOTO</span>
+      </h1>
+      <p class="hero-tagline fade-in delay-2">
+        髪から始まる、あなたらしい美しさへ。
+      </p>
+      <div class="hero-divider fade-in delay-3"></div>
+      <div class="hero-actions fade-in delay-3">
+        <a href="#reservation" class="btn-primary">ご予約はこちら</a>
+        <a href="https://tol-app.jp/s/rieiwamoto" target="_blank" rel="noopener" class="btn-secondary">既存予約サイト</a>
+      </div>
+    </div>
+    <a href="#concept" class="scroll-indicator" aria-label="スクロールして進む">
+      <span class="scroll-text">Scroll</span>
+      <span class="scroll-line"></span>
+    </a>
+  </section>
+
+  <!-- ===== CONCEPT ===== -->
+  <section class="section concept-section" id="concept">
+    <div class="container">
+      <div class="section-label">Concept</div>
+      <div class="concept-grid">
+        <div class="concept-visual">
+          <div class="concept-img-wrap">
+            <div class="concept-img-placeholder">
+              <div class="concept-ornament"></div>
+            </div>
+          </div>
+        </div>
+        <div class="concept-text">
+          <h2 class="section-heading">
+            <span class="en">Hair by RIE</span>
+            <span class="ja">あなたの毎日を、もっと輝かせる</span>
+          </h2>
+          <p class="concept-body">
+            Kraemer Paris 天神南に在籍する岩本梨江（RIE IWAMOTO）は、
+            お客さま一人ひとりの骨格・髪質・ライフスタイルに寄り添い、
+            その人だけの"似合わせ小顔カット"を提案します。
+          </p>
+          <p class="concept-body">
+            髪質改善カラーや最新システムトリートメントで、
+            内側から輝くサラツヤ髪へ。
+            施術後のスタイリングレクチャーも丁寧にお伝えし、
+            サロンを出た後の毎日を美しく整えます。
+          </p>
+          <div class="concept-info">
+            <div class="info-item">
+              <span class="info-label">サロン</span>
+              <span class="info-value">Kraemer Paris 天神南</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">住所</span>
+              <span class="info-value">福岡市中央区今泉1-10-21 天神MACビル1F</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">定休日</span>
+              <span class="info-value">日曜・不定休</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MENU ===== -->
+  <section class="section menu-section" id="menu">
+    <div class="container">
+      <div class="section-label">Menu & Price</div>
+      <h2 class="section-heading center">
+        <span class="en">Menu</span>
+        <span class="ja">メニュー・料金</span>
+      </h2>
+      <p class="section-sub-text">すべての価格は税込み表示です</p>
+
+      <!-- タブ -->
+      <div class="menu-tabs">
+        <button class="menu-tab active" data-tab="ladies">Ladies</button>
+        <button class="menu-tab" data-tab="mens">Men's</button>
+        <button class="menu-tab" data-tab="kids">Kids</button>
+        <button class="menu-tab" data-tab="set">Hair Set</button>
+      </div>
+
+      <!-- レディース -->
+      <div class="menu-tab-content active" id="tab-ladies">
+
+        <div class="menu-category">
+          <h3 class="menu-category-title"><span class="category-en">Cut</span><span class="category-ja">カット</span></h3>
+          <div class="menu-list">
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">前髪カット</span><span class="menu-item-time">30分</span></div><div class="menu-item-price">¥1,100</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">前髪＋顔まわりカット</span><span class="menu-item-time">30分</span></div><div class="menu-item-price">¥2,200</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">小顔cut <span class="menu-note">シャンプー・ブロー込</span></span><span class="menu-item-time">60分</span></div><div class="menu-item-price">¥5,500</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">シャンプー＋ブロー</span><span class="menu-item-time">30分</span></div><div class="menu-item-price">¥2,200</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">ブローのみ</span><span class="menu-item-time">20分</span></div><div class="menu-item-price">¥1,650</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">アイロン仕上げ</span><span class="menu-item-time">20分</span></div><div class="menu-item-price">¥2,200</div></div>
+          </div>
+        </div>
+
+        <div class="menu-category">
+          <h3 class="menu-category-title"><span class="category-en">Cut + Color</span><span class="category-ja">カット＋カラー</span></h3>
+          <div class="menu-list">
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">小顔cut＋ケアinカラー</span><span class="menu-item-time">120分</span></div><div class="menu-item-price">¥8,900</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">小顔cut＋カラー＋クイックTR</span><span class="menu-item-time">120分</span></div><div class="menu-item-price">¥9,900</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">小顔cut＋カラー＋システムTR</span><span class="menu-item-time">150分</span></div><div class="menu-item-price">¥12,900</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">小顔cut＋カラー＋髪質改善TR</span><span class="menu-item-time">150分</span></div><div class="menu-item-price">¥15,900</div></div>
+            <div class="menu-item menu-item-featured"><div class="menu-item-left"><span class="menu-item-name">小顔cut＋カラー＋プレミアム髪質改善TR</span><span class="menu-item-time">150分</span></div><div class="menu-item-price">¥17,900</div></div>
+          </div>
+        </div>
+
+        <div class="menu-category">
+          <h3 class="menu-category-title"><span class="category-en">Treatment</span><span class="category-ja">トリートメント</span></h3>
+          <div class="menu-list">
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">クイックTR</span><span class="menu-item-time">10分</span></div><div class="menu-item-price">¥1,100</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">システムTR <span class="menu-note">3step</span></span><span class="menu-item-time">20分</span></div><div class="menu-item-price">¥3,000</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">髪質改善TR</span><span class="menu-item-time">30分</span></div><div class="menu-item-price">¥5,000</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">集中補修TR</span><span class="menu-item-time">30分</span></div><div class="menu-item-price">¥6,000</div></div>
+          </div>
+        </div>
+
+        <div class="menu-category">
+          <h3 class="menu-category-title"><span class="category-en">Color</span><span class="category-ja">カラー</span></h3>
+          <div class="menu-list">
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">イヤリングカラー <span class="menu-note">要相談</span></span><span class="menu-item-time">120分</span></div><div class="menu-item-price">¥8,800</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">インナーカラー <span class="menu-note">要相談</span></span><span class="menu-item-time">150分</span></div><div class="menu-item-price">¥14,000</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">ケアブリーチWカラー <span class="menu-note">カット別・要相談</span></span><span class="menu-item-time">180分</span></div><div class="menu-item-price">¥18,000</div></div>
+          </div>
+        </div>
+
+        <div class="menu-category">
+          <h3 class="menu-category-title"><span class="category-en">Perm</span><span class="category-ja">パーマ</span></h3>
+          <div class="menu-list">
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">カット＋パーマ</span><span class="menu-item-time">150分</span></div><div class="menu-item-price">¥11,000</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">部分パーマ <span class="menu-note">要相談</span></span><span class="menu-item-time">90分</span></div><div class="menu-item-price">¥4,400〜</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">デジタルパーマ <span class="menu-note">追加メニュー</span></span><span class="menu-item-time">+30分</span></div><div class="menu-item-price">+¥2,000</div></div>
+          </div>
+        </div>
+
+        <div class="menu-category">
+          <h3 class="menu-category-title"><span class="category-en">Straight</span><span class="category-ja">縮毛矯正</span></h3>
+          <div class="menu-list">
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">前髪縮毛矯正</span><span class="menu-item-time">120分</span></div><div class="menu-item-price">¥8,800</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">縮毛矯正＋小顔cut</span><span class="menu-item-time">180分</span></div><div class="menu-item-price">¥16,000</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">カット＋縮毛矯正＋システムTR</span><span class="menu-item-time">180分</span></div><div class="menu-item-price">¥21,000</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">Premium縮毛矯正＋cut</span><span class="menu-item-time">180分</span></div><div class="menu-item-price">¥18,000</div></div>
+            <div class="menu-item menu-item-featured"><div class="menu-item-left"><span class="menu-item-name">カット＋Premium縮毛矯正＋髪質改善TR</span><span class="menu-item-time">180分</span></div><div class="menu-item-price">¥23,000</div></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- メンズ -->
+      <div class="menu-tab-content" id="tab-mens">
+
+        <div class="menu-category">
+          <h3 class="menu-category-title"><span class="category-en">Cut</span><span class="category-ja">カット</span></h3>
+          <div class="menu-list">
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">刈り上げのみ <span class="menu-note">サイド・バックのみ</span></span><span class="menu-item-time">20〜30分</span></div><div class="menu-item-price">¥2,200</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">眉カット</span><span class="menu-item-time">10〜15分</span></div><div class="menu-item-price">¥1,100</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">メンズカット <span class="menu-note">シャンプー・スタイリング込</span></span><span class="menu-item-time">60分</span></div><div class="menu-item-price">¥4,400</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">メンズカット＋眉カット</span><span class="menu-item-time">60分</span></div><div class="menu-item-price">¥5,500</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">メンズカット＋炭酸スパ</span><span class="menu-item-time">60分</span></div><div class="menu-item-price">¥5,500</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">ヘッドスパ</span><span class="menu-item-time">30分</span></div><div class="menu-item-price">¥3,300</div></div>
+          </div>
+        </div>
+
+        <div class="menu-category">
+          <h3 class="menu-category-title"><span class="category-en">Cut + Color</span><span class="category-ja">カット＋カラー</span></h3>
+          <div class="menu-list">
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">メンズカット＋カラー</span><span class="menu-item-time">120分</span></div><div class="menu-item-price">¥8,900</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">メンズカット＋白髪染め</span><span class="menu-item-time">120分</span></div><div class="menu-item-price">¥9,900〜</div></div>
+          </div>
+        </div>
+
+        <div class="menu-category">
+          <h3 class="menu-category-title"><span class="category-en">Perm</span><span class="category-ja">パーマ</span></h3>
+          <div class="menu-list">
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">メンズカット＋パーマ</span><span class="menu-item-time">120分</span></div><div class="menu-item-price">¥9,900</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">メンズカット＋ピンパーマ</span><span class="menu-item-time">120分</span></div><div class="menu-item-price">¥10,900</div></div>
+            <div class="menu-item menu-item-featured"><div class="menu-item-left"><span class="menu-item-name">メンズカット＋特殊パーマ <span class="menu-note">ツイスト・スパイラル・要相談</span></span><span class="menu-item-time">150分</span></div><div class="menu-item-price">¥12,900</div></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- キッズ・学生 -->
+      <div class="menu-tab-content" id="tab-kids">
+
+        <div class="menu-category">
+          <h3 class="menu-category-title"><span class="category-en">Kids & Students</span><span class="category-ja">キッズ・学生カット</span></h3>
+          <div class="menu-list">
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">キッズカット <span class="menu-note">未就学児</span></span><span class="menu-item-time">30分</span></div><div class="menu-item-price">¥2,200</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">キッズカット <span class="menu-note">小学生</span></span><span class="menu-item-time">30〜40分</span></div><div class="menu-item-price">¥2,750</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">ジュニアカット <span class="menu-note">中学生</span></span><span class="menu-item-time">45分</span></div><div class="menu-item-price">¥3,300</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">学生カット <span class="menu-note">高校生</span></span><span class="menu-item-time">50〜60分</span></div><div class="menu-item-price">¥3,850</div></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ヘアセット -->
+      <div class="menu-tab-content" id="tab-set">
+
+        <div class="menu-category">
+          <h3 class="menu-category-title"><span class="category-en">Hair Set</span><span class="category-ja">ヘアセット</span></h3>
+          <div class="menu-list">
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">ヘアセット（巻き・簡単アレンジ）</span><span class="menu-item-time">30分</span></div><div class="menu-item-price">¥3,300</div></div>
+            <div class="menu-item"><div class="menu-item-left"><span class="menu-item-name">フルアップ</span><span class="menu-item-time">45分</span></div><div class="menu-item-price">¥4,400</div></div>
+            <div class="menu-item menu-item-featured"><div class="menu-item-left"><span class="menu-item-name">成人式／卒業式ヘアセット <span class="menu-note">要相談</span></span><span class="menu-item-time">60分</span></div><div class="menu-item-price">¥6,600</div></div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== RESERVATION ===== -->
+  <section class="section reservation-section" id="reservation">
+    <div class="container">
+      <div class="section-label">Reservation</div>
+      <h2 class="section-heading center">
+        <span class="en">Book Now</span>
+        <span class="ja">ご予約フォーム</span>
+      </h2>
+      <p class="section-sub-text">ご希望の内容をご選択の上、送信してください。<br>確認後、LINEまたはお電話にてご連絡いたします。</p>
+
+      <!-- Progress Steps -->
+      <div class="form-progress">
+        <div class="progress-step active" data-step="1">
+          <div class="step-circle">1</div>
+          <div class="step-label">メニュー</div>
+        </div>
+        <div class="progress-line"></div>
+        <div class="progress-step" data-step="2">
+          <div class="step-circle">2</div>
+          <div class="step-label">日時</div>
+        </div>
+        <div class="progress-line"></div>
+        <div class="progress-step" data-step="3">
+          <div class="step-circle">3</div>
+          <div class="step-label">お客様情報</div>
+        </div>
+        <div class="progress-line"></div>
+        <div class="progress-step" data-step="4">
+          <div class="step-circle">4</div>
+          <div class="step-label">確認・送信</div>
+        </div>
+      </div>
+
+      <div class="form-wrapper">
         <!-- Step 1: Menu Selection -->
         <div class="form-step active" id="step-1">
           <h3 class="step-title">メニューを選択してください</h3>
 
-          <div class="menu-select-group">
-            <h4 class="menu-select-category">カット</h4>
-            <label class="menu-radio">
-              <input type="radio" name="base-menu" value="小顔カット + アイロン仕上げ&レクチャー" data-price="5500">
-              <span class="radio-custom"></span>
-              <span class="radio-label">小顔カット + アイロン仕上げ&レクチャー</span>
-              <span class="radio-price">¥5,500</span>
-            </label>
-            <label class="menu-radio">
-              <input type="radio" name="base-menu" value="メンズカット（シャンプー・スタイリング込み）" data-price="4400">
-              <span class="radio-custom"></span>
-              <span class="radio-label">メンズカット（シャンプー・スタイリング込み）</span>
-              <span class="radio-price">¥4,400</span>
-            </label>
-            <label class="menu-radio">
-              <input type="radio" name="base-menu" value="前髪カット" data-price="1100">
-              <span class="radio-custom"></span>
-              <span class="radio-label">前髪カット</span>
-              <span class="radio-price">¥1,100</span>
-            </label>
+          <!-- フォーム内タブ -->
+          <div class="form-menu-tabs">
+            <button type="button" class="form-menu-tab active" data-ftab="f-ladies">Ladies</button>
+            <button type="button" class="form-menu-tab" data-ftab="f-mens">Men's</button>
+            <button type="button" class="form-menu-tab" data-ftab="f-kids">Kids</button>
+            <button type="button" class="form-menu-tab" data-ftab="f-set">Hair Set</button>
           </div>
 
-          <div class="menu-select-group">
-            <h4 class="menu-select-category">カット + カラー</h4>
-            <label class="menu-radio">
-              <input type="radio" name="base-menu" value="小顔カット + 髪質改善ケアinカラー" data-price="8900">
-              <span class="radio-custom"></span>
-              <span class="radio-label">小顔カット + 髪質改善ケアinカラー</span>
-              <span class="radio-price">¥8,900</span>
-            </label>
-            <label class="menu-radio">
-              <input type="radio" name="base-menu" value="小顔カット + フルカラー + クイックTR" data-price="9900">
-              <span class="radio-custom"></span>
-              <span class="radio-label">小顔カット + フルカラー + クイックTR</span>
-              <span class="radio-price">¥9,900</span>
-            </label>
-            <label class="menu-radio">
-              <input type="radio" name="base-menu" value="小顔カット + フルカラー + 新システムTR" data-price="12900">
-              <span class="radio-custom"></span>
-              <span class="radio-label">小顔カット + フルカラー + 新システムTR</span>
-              <span class="radio-price">¥12,900</span>
-            </label>
+          <!-- レディース -->
+          <div class="form-menu-tab-content active" id="f-ladies">
+            <div class="menu-select-group">
+              <h4 class="menu-select-category">カット</h4>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="前髪カット" data-price="1100"><span class="radio-custom"></span><span class="radio-label">前髪カット</span><span class="radio-price">¥1,100</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="前髪＋顔まわりカット" data-price="2200"><span class="radio-custom"></span><span class="radio-label">前髪＋顔まわりカット</span><span class="radio-price">¥2,200</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="小顔cut（シャンプー・ブロー込）" data-price="5500"><span class="radio-custom"></span><span class="radio-label">小顔cut <span class="menu-note">シャンプー・ブロー込</span></span><span class="radio-price">¥5,500</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="シャンプー＋ブロー" data-price="2200"><span class="radio-custom"></span><span class="radio-label">シャンプー＋ブロー</span><span class="radio-price">¥2,200</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="ブローのみ" data-price="1650"><span class="radio-custom"></span><span class="radio-label">ブローのみ</span><span class="radio-price">¥1,650</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="アイロン仕上げ" data-price="2200"><span class="radio-custom"></span><span class="radio-label">アイロン仕上げ</span><span class="radio-price">¥2,200</span></label>
+            </div>
+            <div class="menu-select-group">
+              <h4 class="menu-select-category">カット＋カラー</h4>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="小顔cut＋ケアinカラー" data-price="8900"><span class="radio-custom"></span><span class="radio-label">小顔cut＋ケアinカラー</span><span class="radio-price">¥8,900</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="小顔cut＋カラー＋クイックTR" data-price="9900"><span class="radio-custom"></span><span class="radio-label">小顔cut＋カラー＋クイックTR</span><span class="radio-price">¥9,900</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="小顔cut＋カラー＋システムTR" data-price="12900"><span class="radio-custom"></span><span class="radio-label">小顔cut＋カラー＋システムTR</span><span class="radio-price">¥12,900</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="小顔cut＋カラー＋髪質改善TR" data-price="15900"><span class="radio-custom"></span><span class="radio-label">小顔cut＋カラー＋髪質改善TR</span><span class="radio-price">¥15,900</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="小顔cut＋カラー＋プレミアム髪質改善TR" data-price="17900"><span class="radio-custom"></span><span class="radio-label">小顔cut＋カラー＋プレミアム髪質改善TR</span><span class="radio-price">¥17,900</span></label>
+            </div>
+            <div class="menu-select-group">
+              <h4 class="menu-select-category">トリートメント</h4>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="クイックTR" data-price="1100"><span class="radio-custom"></span><span class="radio-label">クイックTR</span><span class="radio-price">¥1,100</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="システムTR（3step）" data-price="3000"><span class="radio-custom"></span><span class="radio-label">システムTR <span class="menu-note">3step</span></span><span class="radio-price">¥3,000</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="髪質改善TR" data-price="5000"><span class="radio-custom"></span><span class="radio-label">髪質改善TR</span><span class="radio-price">¥5,000</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="集中補修TR" data-price="6000"><span class="radio-custom"></span><span class="radio-label">集中補修TR</span><span class="radio-price">¥6,000</span></label>
+            </div>
+            <div class="menu-select-group">
+              <h4 class="menu-select-category">カラー</h4>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="イヤリングカラー（要相談）" data-price="8800"><span class="radio-custom"></span><span class="radio-label">イヤリングカラー <span class="menu-note">要相談</span></span><span class="radio-price">¥8,800</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="インナーカラー（要相談）" data-price="14000"><span class="radio-custom"></span><span class="radio-label">インナーカラー <span class="menu-note">要相談</span></span><span class="radio-price">¥14,000</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="ケアブリーチWカラー（要相談）" data-price="18000"><span class="radio-custom"></span><span class="radio-label">ケアブリーチWカラー <span class="menu-note">カット別・要相談</span></span><span class="radio-price">¥18,000</span></label>
+            </div>
+            <div class="menu-select-group">
+              <h4 class="menu-select-category">パーマ</h4>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="カット＋パーマ" data-price="11000"><span class="radio-custom"></span><span class="radio-label">カット＋パーマ</span><span class="radio-price">¥11,000</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="部分パーマ（要相談）" data-price="4400"><span class="radio-custom"></span><span class="radio-label">部分パーマ <span class="menu-note">要相談</span></span><span class="radio-price">¥4,400〜</span></label>
+            </div>
+            <div class="menu-select-group">
+              <h4 class="menu-select-category">縮毛矯正</h4>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="前髪縮毛矯正" data-price="8800"><span class="radio-custom"></span><span class="radio-label">前髪縮毛矯正</span><span class="radio-price">¥8,800</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="縮毛矯正＋小顔cut" data-price="16000"><span class="radio-custom"></span><span class="radio-label">縮毛矯正＋小顔cut</span><span class="radio-price">¥16,000</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="カット＋縮毛矯正＋システムTR" data-price="21000"><span class="radio-custom"></span><span class="radio-label">カット＋縮毛矯正＋システムTR</span><span class="radio-price">¥21,000</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="Premium縮毛矯正＋cut" data-price="18000"><span class="radio-custom"></span><span class="radio-label">Premium縮毛矯正＋cut</span><span class="radio-price">¥18,000</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="カット＋Premium縮毛矯正＋髪質改善TR" data-price="23000"><span class="radio-custom"></span><span class="radio-label">カット＋Premium縮毛矯正＋髪質改善TR</span><span class="radio-price">¥23,000</span></label>
+            </div>
           </div>
 
-          <div class="menu-select-group">
-            <h4 class="menu-select-category">カット + カラー + トリートメント</h4>
-            <label class="menu-radio">
-              <input type="radio" name="base-menu" value="髪質改善カラー + 小顔カット + クイックTR" data-price="11000">
-              <span class="radio-custom"></span>
-              <span class="radio-label">髪質改善カラー + 小顔カット + クイックTR</span>
-              <span class="radio-price">¥11,000</span>
-            </label>
-            <label class="menu-radio">
-              <input type="radio" name="base-menu" value="髪質改善カラー + 小顔カット + 新システムTR" data-price="13900">
-              <span class="radio-custom"></span>
-              <span class="radio-label">髪質改善カラー + 小顔カット + 新システムTR</span>
-              <span class="radio-price">¥13,900</span>
-            </label>
-            <label class="menu-radio">
-              <input type="radio" name="base-menu" value="新髪質改善TR + ケアカラー + 小顔カット" data-price="15900">
-              <span class="radio-custom"></span>
-              <span class="radio-label">新髪質改善TR + ケアカラー + 小顔カット</span>
-              <span class="radio-price">¥15,900</span>
-            </label>
-            <label class="menu-radio">
-              <input type="radio" name="base-menu" value="新プレミアム髪質改善TR + カラー + カット" data-price="17900">
-              <span class="radio-custom"></span>
-              <span class="radio-label">新プレミアム髪質改善TR + カラー + カット</span>
-              <span class="radio-price">¥17,900</span>
-            </label>
+          <!-- メンズ -->
+          <div class="form-menu-tab-content" id="f-mens">
+            <div class="menu-select-group">
+              <h4 class="menu-select-category">カット</h4>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="刈り上げのみ" data-price="2200"><span class="radio-custom"></span><span class="radio-label">刈り上げのみ <span class="menu-note">サイド・バックのみ</span></span><span class="radio-price">¥2,200</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="眉カット" data-price="1100"><span class="radio-custom"></span><span class="radio-label">眉カット</span><span class="radio-price">¥1,100</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="メンズカット（シャンプー・スタイリング込）" data-price="4400"><span class="radio-custom"></span><span class="radio-label">メンズカット <span class="menu-note">シャンプー・スタイリング込</span></span><span class="radio-price">¥4,400</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="メンズカット＋眉カット" data-price="5500"><span class="radio-custom"></span><span class="radio-label">メンズカット＋眉カット</span><span class="radio-price">¥5,500</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="メンズカット＋炭酸スパ" data-price="5500"><span class="radio-custom"></span><span class="radio-label">メンズカット＋炭酸スパ</span><span class="radio-price">¥5,500</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="ヘッドスパ" data-price="3300"><span class="radio-custom"></span><span class="radio-label">ヘッドスパ</span><span class="radio-price">¥3,300</span></label>
+            </div>
+            <div class="menu-select-group">
+              <h4 class="menu-select-category">カット＋カラー</h4>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="メンズカット＋カラー" data-price="8900"><span class="radio-custom"></span><span class="radio-label">メンズカット＋カラー</span><span class="radio-price">¥8,900</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="メンズカット＋白髪染め" data-price="9900"><span class="radio-custom"></span><span class="radio-label">メンズカット＋白髪染め</span><span class="radio-price">¥9,900〜</span></label>
+            </div>
+            <div class="menu-select-group">
+              <h4 class="menu-select-category">パーマ</h4>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="メンズカット＋パーマ" data-price="9900"><span class="radio-custom"></span><span class="radio-label">メンズカット＋パーマ</span><span class="radio-price">¥9,900</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="メンズカット＋ピンパーマ" data-price="10900"><span class="radio-custom"></span><span class="radio-label">メンズカット＋ピンパーマ</span><span class="radio-price">¥10,900</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="メンズカット＋特殊パーマ（要相談）" data-price="12900"><span class="radio-custom"></span><span class="radio-label">メンズカット＋特殊パーマ <span class="menu-note">ツイスト・スパイラル・要相談</span></span><span class="radio-price">¥12,900</span></label>
+            </div>
           </div>
 
-          <div class="menu-select-group">
-            <h4 class="menu-select-category">縮毛矯正・パーマ</h4>
-            <label class="menu-radio">
-              <input type="radio" name="base-menu" value="艶髪ストレート（縮毛矯正）+ 小顔カット" data-price="16000">
-              <span class="radio-custom"></span>
-              <span class="radio-label">艶髪ストレート（縮毛矯正）+ 小顔カット</span>
-              <span class="radio-price">¥16,000</span>
-            </label>
-            <label class="menu-radio">
-              <input type="radio" name="base-menu" value="ケア成分in縮毛矯正 + 小顔カット" data-price="18000">
-              <span class="radio-custom"></span>
-              <span class="radio-label">ケア成分in縮毛矯正 + 小顔カット</span>
-              <span class="radio-price">¥18,000</span>
-            </label>
-            <label class="menu-radio">
-              <input type="radio" name="base-menu" value="ウェーブパーマ + 小顔カット" data-price="11000">
-              <span class="radio-custom"></span>
-              <span class="radio-label">ウェーブパーマ + 小顔カット</span>
-              <span class="radio-price">¥11,000</span>
-            </label>
+          <!-- キッズ -->
+          <div class="form-menu-tab-content" id="f-kids">
+            <div class="menu-select-group">
+              <h4 class="menu-select-category">キッズ・学生カット</h4>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="キッズカット（未就学児）" data-price="2200"><span class="radio-custom"></span><span class="radio-label">キッズカット <span class="menu-note">未就学児</span></span><span class="radio-price">¥2,200</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="キッズカット（小学生）" data-price="2750"><span class="radio-custom"></span><span class="radio-label">キッズカット <span class="menu-note">小学生</span></span><span class="radio-price">¥2,750</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="ジュニアカット（中学生）" data-price="3300"><span class="radio-custom"></span><span class="radio-label">ジュニアカット <span class="menu-note">中学生</span></span><span class="radio-price">¥3,300</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="学生カット（高校生）" data-price="3850"><span class="radio-custom"></span><span class="radio-label">学生カット <span class="menu-note">高校生</span></span><span class="radio-price">¥3,850</span></label>
+            </div>
+          </div>
+
+          <!-- ヘアセット -->
+          <div class="form-menu-tab-content" id="f-set">
+            <div class="menu-select-group">
+              <h4 class="menu-select-category">ヘアセット</h4>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="ヘアセット（巻き・簡単アレンジ）" data-price="3300"><span class="radio-custom"></span><span class="radio-label">ヘアセット（巻き・簡単アレンジ）</span><span class="radio-price">¥3,300</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="フルアップ" data-price="4400"><span class="radio-custom"></span><span class="radio-label">フルアップ</span><span class="radio-price">¥4,400</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="成人式／卒業式ヘアセット（要相談）" data-price="6600"><span class="radio-custom"></span><span class="radio-label">成人式／卒業式ヘアセット <span class="menu-note">要相談</span></span><span class="radio-price">¥6,600</span></label>
+            </div>
           </div>
 
           <div class="option-select-group">
@@ -138,3 +439,200 @@
         <div class="form-step" id="step-2">
           <h3 class="step-title">ご希望の日時を選択してください</h3>
           <div class="datetime-grid">
+            <div class="calendar-wrap">
+              <div class="cal-header">
+                <button class="cal-nav" id="cal-prev" aria-label="前月">&#8249;</button>
+                <span class="cal-month-label" id="cal-month-label"></span>
+                <button class="cal-nav" id="cal-next" aria-label="次月">&#8250;</button>
+              </div>
+              <div class="cal-weekdays">
+                <span>日</span><span>月</span><span>火</span><span>水</span>
+                <span>木</span><span>金</span><span>土</span>
+              </div>
+              <div class="cal-grid" id="cal-grid"></div>
+            </div>
+            <div class="timeslot-wrap">
+              <h4 class="timeslot-title">時間帯を選択</h4>
+              <p class="timeslot-note" id="timeslot-note">← 日付を先に選択してください</p>
+              <div class="timeslot-grid" id="timeslot-grid"></div>
+            </div>
+          </div>
+          <div class="selected-datetime" id="selected-datetime" style="display:none">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span id="selected-datetime-text"></span>
+          </div>
+          <div class="form-nav">
+            <button class="btn-form-back" id="step2-back">← 戻る</button>
+            <button class="btn-form-next" id="step2-next" disabled>次へ：お客様情報 →</button>
+          </div>
+        </div>
+
+        <!-- Step 3: Customer Info -->
+        <div class="form-step" id="step-3">
+          <h3 class="step-title">お客様情報をご入力ください</h3>
+          <div class="input-group">
+            <label class="input-label" for="cust-name">お名前 <span class="required">必須</span></label>
+            <input type="text" id="cust-name" class="form-input" placeholder="山田 花子" autocomplete="name">
+          </div>
+          <div class="input-group">
+            <label class="input-label" for="cust-phone">電話番号 <span class="required">必須</span></label>
+            <input type="tel" id="cust-phone" class="form-input" placeholder="090-0000-0000" autocomplete="tel">
+          </div>
+          <div class="input-group">
+            <label class="input-label" for="cust-email">メールアドレス <span class="required">必須</span></label>
+            <input type="email" id="cust-email" class="form-input" placeholder="example@email.com" autocomplete="email">
+          </div>
+          <div class="input-group">
+            <label class="input-label" for="cust-notes">ご要望・備考 <span class="optional">任意</span></label>
+            <textarea id="cust-notes" class="form-textarea" rows="4" placeholder="ご要望やアレルギー情報などがあればお気軽にどうぞ"></textarea>
+          </div>
+          <div class="form-nav">
+            <button class="btn-form-back" id="step3-back">← 戻る</button>
+            <button class="btn-form-next" id="step3-next" disabled>確認画面へ →</button>
+          </div>
+        </div>
+
+        <!-- Step 4: Confirmation -->
+        <div class="form-step" id="step-4">
+          <h3 class="step-title">ご予約内容の確認</h3>
+          <div class="confirm-card">
+            <div class="confirm-row">
+              <span class="confirm-label">メニュー</span>
+              <span class="confirm-value" id="conf-menu"></span>
+            </div>
+            <div class="confirm-row" id="conf-options-row" style="display:none">
+              <span class="confirm-label">追加オプション</span>
+              <span class="confirm-value" id="conf-options"></span>
+            </div>
+            <div class="confirm-row highlight">
+              <span class="confirm-label">合計金額</span>
+              <span class="confirm-value" id="conf-total"></span>
+            </div>
+            <div class="confirm-divider"></div>
+            <div class="confirm-row">
+              <span class="confirm-label">ご希望日時</span>
+              <span class="confirm-value" id="conf-datetime"></span>
+            </div>
+            <div class="confirm-divider"></div>
+            <div class="confirm-row">
+              <span class="confirm-label">お名前</span>
+              <span class="confirm-value" id="conf-name"></span>
+            </div>
+            <div class="confirm-row">
+              <span class="confirm-label">電話番号</span>
+              <span class="confirm-value" id="conf-phone"></span>
+            </div>
+            <div class="confirm-row">
+              <span class="confirm-label">メール</span>
+              <span class="confirm-value" id="conf-email"></span>
+            </div>
+            <div class="confirm-row" id="conf-notes-row" style="display:none">
+              <span class="confirm-label">ご要望</span>
+              <span class="confirm-value" id="conf-notes"></span>
+            </div>
+          </div>
+          <p class="confirm-notice">送信後、LINEまたはメールにてご連絡いたします。</p>
+          <div class="form-nav">
+            <button class="btn-form-back" id="step4-back">← 戻る</button>
+            <button class="btn-submit" id="btn-submit">予約を送信する</button>
+          </div>
+        </div>
+
+        <!-- Complete -->
+        <div class="form-step" id="step-complete">
+          <div class="complete-inner">
+            <div class="complete-icon">
+              <svg viewBox="0 0 52 52" fill="none">
+                <circle cx="26" cy="26" r="25" stroke="var(--sage)" stroke-width="1.5"/>
+                <path d="M14 26l8 8 16-16" stroke="var(--sage)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3 class="complete-title">ご予約を受け付けました</h3>
+            <p class="complete-text">
+              ご予約内容を確認後、<br>LINEまたはお電話にてご連絡いたします。<br>
+              少々お待ちください。
+            </p>
+            <a href="#top" class="btn-primary" style="display:inline-block;margin-top:2rem">トップへ戻る</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ACCESS ===== -->
+  <section class="section access-section" id="access">
+    <div class="container">
+      <div class="section-label">Access</div>
+      <h2 class="section-heading center">
+        <span class="en">Access</span>
+        <span class="ja">アクセス</span>
+      </h2>
+      <div class="access-grid">
+        <div class="access-info">
+          <div class="access-detail">
+            <div class="access-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div>
+              <p class="access-salon-name">Kraemer Paris 天神南</p>
+              <p class="access-address">福岡県福岡市中央区今泉1-10-21<br>天神MACビル1F</p>
+            </div>
+          </div>
+          <div class="access-detail">
+            <div class="access-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+            </div>
+            <div>
+              <p class="access-transport">地下鉄七隈線「天神南駅」より徒歩5分</p>
+            </div>
+          </div>
+          <div class="access-sns">
+            <a href="https://www.instagram.com/_monrii" target="_blank" rel="noopener" class="sns-link insta">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+              @_monrii
+            </a>
+            <a href="https://line.me/R/ti/p/@162dhpwk" target="_blank" rel="noopener" class="sns-link line">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.084 2 11.12c0 4.502 3.695 8.273 8.685 8.98.338.073.8.224.916.514.105.265.069.68.034.948l-.148.892c-.045.266-.21 1.04.914.567 1.124-.473 6.063-3.572 8.274-6.116C22.248 14.984 22 13.1 22 11.12 22 6.084 17.523 2 12 2z"/></svg>
+              LINE公式
+            </a>
+          </div>
+        </div>
+        <div class="access-map">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3323.2!2d130.3976!3d33.5897!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x354191a3b2a9c9e7%3A0x1!2z5aSn56We44Oe44OD44OT44Or1F!5e0!3m2!1sja!2sjp!4v1700000000000"
+            width="100%" height="350" style="border:0" allowfullscreen loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Kraemer Paris 天神南 地図"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <p class="footer-logo-en">RIE IWAMOTO</p>
+        <p class="footer-logo-sub">Kraemer Paris 天神南</p>
+      </div>
+      <div class="footer-links">
+        <a href="#concept">Concept</a>
+        <a href="#menu">Menu</a>
+        <a href="#reservation">Reservation</a>
+        <a href="#access">Access</a>
+      </div>
+      <div class="footer-sns">
+        <a href="https://www.instagram.com/_monrii" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="https://line.me/R/ti/p/@162dhpwk" target="_blank" rel="noopener" aria-label="LINE">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.084 2 11.12c0 4.502 3.695 8.273 8.685 8.98.338.073.8.224.916.514.105.265.069.68.034.948l-.148.892c-.045.266-.21 1.04.914.567 1.124-.473 6.063-3.572 8.274-6.116C22.248 14.984 22 13.1 22 11.12 22 6.084 17.523 2 12 2z"/></svg>
+        </a>
+      </div>
+      <p class="footer-copy">&copy; 2025 RIE IWAMOTO / Kraemer Paris 天神南. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
