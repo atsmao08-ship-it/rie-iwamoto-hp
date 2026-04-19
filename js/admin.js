@@ -12,6 +12,13 @@ const CONFIG = {
   CUSTOMER_KEY: 'rie_customers',
 };
 
+// GAS エンドポイント（main.js と同じ URL）
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbwe3FBKjbzUPzcLlioAszyR7s_TMv3fm1uDDWEGf3ZpuX0WlZyggJYzYyQeFd7cE-6ZjA/exec';
+
+// ステータス 日本語 ↔ 英語 マッピング
+const STATUS_JA = { unconfirmed: '未確認', confirmed: '確認済', completed: '完了', cancelled: 'キャンセル' };
+const STATUS_EN = { '未確認': 'unconfirmed', '確認済': 'confirmed', '完了': 'completed', 'キャンセル': 'cancelled' };
+
 // ============================================
 // サンプルデータ（初回起動時に使用）
 // ============================================
@@ -129,6 +136,70 @@ function saveCustomers(data) {
 }
 
 // ============================================
+// ライブデータ取得（スプレッドシート連携）
+// ============================================
+async function fetchLiveReservations() {
+  try {
+    const res = await fetch(`${GAS_URL}?action=reservations`);
+    const json = await res.json();
+    if (json.reservations && Array.isArray(json.reservations)) {
+      saveReservations(json.reservations);
+      // 顧客データも自動生成（来店実績から集計）
+      buildCustomersFromReservations(json.reservations);
+      return json.reservations;
+    }
+  } catch (e) {
+    console.warn('スプレッドシート取得エラー（サンプルデータを使用）:', e);
+  }
+  return null;
+}
+
+// 予約データから顧客マスタを生成/更新
+function buildCustomersFromReservations(reservations) {
+  const existing = loadCustomers();
+  const map = {};
+  // 既存の顧客メモを保持
+  existing.forEach(c => { map[c.phone] = c.memo || ''; });
+
+  const custMap = {};
+  reservations.filter(r => r.status !== 'cancelled').forEach(r => {
+    if (!custMap[r.phone]) {
+      custMap[r.phone] = {
+        id: 'c_' + r.phone.replace(/-/g, ''),
+        name: r.name,
+        phone: r.phone,
+        visitCount: 0,
+        totalSpent: 0,
+        lastMenu: '',
+        lastVisit: '',
+        memo: map[r.phone] || '',
+      };
+    }
+    const c = custMap[r.phone];
+    c.visitCount++;
+    c.totalSpent += r.totalPrice || 0;
+    if (!c.lastVisit || r.desiredDate > c.lastVisit) {
+      c.lastVisit = r.desiredDate;
+      c.lastMenu = r.menu;
+    }
+  });
+
+  const customers = Object.values(custMap).sort((a, b) => b.visitCount - a.visitCount);
+  if (customers.length > 0) saveCustomers(customers);
+}
+
+// ステータスをスプレッドシートに反映（非同期・fire-and-forget）
+function syncStatusToSheet(rowIndex, newStatusEn) {
+  const statusJa = STATUS_JA[newStatusEn] || '未確認';
+  fetch(GAS_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify({ action: 'updateStatus', rowIndex: rowIndex, status: statusJa }),
+  }).catch(e => console.warn('ステータス更新エラー:', e));
+}
+
+// ============================================
 // 認証
 // ============================================
 const loginScreen = document.getElementById('login-screen');
@@ -169,14 +240,68 @@ document.getElementById('logout-btn').addEventListener('click', () => {
 // ============================================
 // Dashboard Init
 // ============================================
-function initDashboard() {
+async function initDashboard() {
   updateTopbarDate();
   initTabs();
+  initSidebarToggle();
+  addRefreshButton();
+
+  // まずローカルデータで表示（即時表示）
   initSchedule();
   initReservations();
   initCustomers();
   initAnalytics();
-  initSidebarToggle();
+
+  // バックグラウンドでスプレッドシートからライブデータ取得
+  setRefreshStatus('読込中…');
+  const live = await fetchLiveReservations();
+  if (live) {
+    // ライブデータで再描画
+    renderSchedule();
+    renderReservationsTable();
+    renderCustomers();
+    refreshAnalytics();
+    setRefreshStatus('最新データ ✓');
+  } else {
+    setRefreshStatus('オフライン');
+  }
+}
+
+function addRefreshButton() {
+  const topbar = document.querySelector('.topbar');
+  if (!topbar || document.getElementById('refresh-btn')) return;
+
+  const btn = document.createElement('button');
+  btn.id = 'refresh-btn';
+  btn.title = 'スプレッドシートから最新データを取得';
+  btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> <span id="refresh-status">更新</span>';
+  btn.style.cssText = 'display:flex;align-items:center;gap:0.3rem;padding:0.35rem 0.8rem;border:1px solid var(--ivory-deep,#e8ddd0);background:var(--ivory,#fafaf5);border-radius:1rem;font-size:0.78rem;color:var(--text,#2c2520);cursor:pointer;margin-left:auto;white-space:nowrap;';
+  btn.addEventListener('click', async () => {
+    setRefreshStatus('読込中…');
+    btn.disabled = true;
+    const live = await fetchLiveReservations();
+    btn.disabled = false;
+    if (live) {
+      renderSchedule();
+      renderReservationsTable();
+      renderCustomers();
+      refreshAnalytics();
+      setRefreshStatus('最新データ ✓');
+    } else {
+      setRefreshStatus('エラー');
+    }
+  });
+  topbar.appendChild(btn);
+}
+
+function setRefreshStatus(msg) {
+  const el = document.getElementById('refresh-status');
+  if (el) el.textContent = msg;
+}
+
+function refreshAnalytics() {
+  // Chart を再描画（既存の initAnalytics を再呼び出し）
+  initAnalytics();
 }
 
 function updateTopbarDate() {
@@ -414,6 +539,10 @@ document.getElementById('modal-save').addEventListener('click', () => {
   if (idx !== -1) {
     reservations[idx].status = newStatus;
     saveReservations(reservations);
+    // スプレッドシートにも反映（rowIndex がある場合）
+    if (reservations[idx].rowIndex) {
+      syncStatusToSheet(reservations[idx].rowIndex, newStatus);
+    }
     renderReservationsTable();
     renderSchedule();
   }
