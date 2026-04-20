@@ -85,7 +85,6 @@ const state = {
   time: '',
   name: '',
   phone: '',
-  email: '',
   notes: '',
 };
 
@@ -383,14 +382,13 @@ function checkStep2() {
 // ============================================
 // Step 3 — Customer Info
 // ============================================
-const step3Inputs = ['cust-name', 'cust-phone', 'cust-email'];
+const step3Inputs = ['cust-name', 'cust-phone'];
 const step3Next = document.getElementById('step3-next');
 
 function validateStep3() {
-  const name = document.getElementById('cust-name').value.trim();
+  const name  = document.getElementById('cust-name').value.trim();
   const phone = document.getElementById('cust-phone').value.trim();
-  const email = document.getElementById('cust-email').value.trim();
-  step3Next.disabled = !(name && phone && email && /\S+@\S+\.\S+/.test(email));
+  step3Next.disabled = !(name && phone);
 }
 
 step3Inputs.forEach(id => {
@@ -427,9 +425,8 @@ document.getElementById('step2-back').addEventListener('click', () => showStep(1
 
 // Step 3 → 4
 document.getElementById('step3-next').addEventListener('click', () => {
-  state.name = document.getElementById('cust-name').value.trim();
+  state.name  = document.getElementById('cust-name').value.trim();
   state.phone = document.getElementById('cust-phone').value.trim();
-  state.email = document.getElementById('cust-email').value.trim();
   state.notes = document.getElementById('cust-notes').value.trim();
   renderConfirmation();
   showStep(4);
@@ -458,9 +455,8 @@ function renderConfirmation() {
   document.getElementById('conf-datetime').textContent =
     `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日（${weeks[d.getDay()]}） ${state.time}`;
 
-  document.getElementById('conf-name').textContent = state.name;
+  document.getElementById('conf-name').textContent  = state.name;
   document.getElementById('conf-phone').textContent = state.phone;
-  document.getElementById('conf-email').textContent = state.email;
 
   if (state.notes) {
     document.getElementById('conf-notes-row').style.display = 'flex';
@@ -490,7 +486,6 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
     desiredTime: state.time,
     name: state.name,
     phone: state.phone,
-    email: state.email,
     notes: state.notes || 'なし',
   };
 
