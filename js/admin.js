@@ -347,6 +347,22 @@ function initSidebarToggle() {
 // Schedule Tab
 // ============================================
 let scheduleWeekOffset = 0;
+const HOUR_HEIGHT = 64;   // px per 1 hour
+const START_HOUR  = 9;
+const END_HOUR    = 19;
+const TOTAL_HOURS = END_HOUR - START_HOUR;
+
+// メニュー名から施術時間（時間）を返す
+function getMenuDuration(menu) {
+  if (!menu) return 1;
+  if (menu.includes('縮毛') || menu.includes('ストレート')) return 3;
+  if (menu.includes('パーマ')) return 2.5;
+  if ((menu.includes('TR') || menu.includes('トリートメント') || menu.includes('髪質改善')) && menu.includes('カラー')) return 2.5;
+  if (menu.includes('カラー') && menu.includes('カット')) return 2;
+  if (menu.includes('カラー')) return 1.5;
+  if (menu.includes('メンズ') || menu.includes('キッズ') || menu.includes('子ども')) return 0.75;
+  return 1;
+}
 
 function getWeekDates(offset) {
   const now = new Date();
@@ -376,65 +392,233 @@ function renderSchedule() {
   const dates = getWeekDates(scheduleWeekOffset);
   const reservations = loadReservations();
   const now = new Date(); now.setHours(0,0,0,0);
+  const TOTAL_PX = TOTAL_HOURS * HOUR_HEIGHT;
 
-  // ラベル更新
-  const weekDays = ['月', '火', '水', '木', '金', '土'];
+  // 週ラベル更新
   const first = dates[0], last = dates[dates.length - 1];
   document.getElementById('week-label').textContent =
     `${first.getMonth() + 1}/${first.getDate()} 〜 ${last.getMonth() + 1}/${last.getDate()}`;
 
   // ヘッダー
+  const weekDays = ['月', '火', '水', '木', '金', '土'];
   const headerEl = document.getElementById('schedule-header');
-  headerEl.style.gridTemplateColumns = `60px repeat(6, 1fr)`;
-  headerEl.innerHTML = '<div class="schedule-col-head" style="background:var(--ivory)"></div>';
+  headerEl.style.gridTemplateColumns = `52px repeat(6, 1fr)`;
+  headerEl.innerHTML = '<div class="schedule-col-head" style="background:var(--ivory);border-right:1px solid var(--ivory-mid)"></div>';
   dates.forEach(d => {
     const isToday = d.toDateString() === now.toDateString();
-    const isSun = d.getDay() === 0;
-    const isSat = d.getDay() === 6;
-    const cls = ['schedule-col-head', isToday ? 'today' : '', isSun ? 'sunday' : '', isSat ? 'saturday' : ''].filter(Boolean).join(' ');
+    const isSat   = d.getDay() === 6;
+    const cls = ['schedule-col-head', isToday ? 'today' : '', isSat ? 'saturday' : ''].filter(Boolean).join(' ');
     headerEl.innerHTML += `<div class="${cls}">${weekDays[d.getDay() - 1] || '土'}<br><strong>${d.getDate()}</strong></div>`;
   });
 
-  // グリッド
+  // グリッド本体
   const gridEl = document.getElementById('schedule-grid');
-  gridEl.style.gridTemplateColumns = `60px repeat(6, 1fr)`;
   gridEl.innerHTML = '';
 
-  // 時間列（9〜18時）
-  const hours = Array.from({ length: 10 }, (_, i) => i + 9);
+  // ── 時間軸ガター ──
+  const gutter = document.createElement('div');
+  gutter.className = 'schedule-time-gutter';
+  gutter.style.height = TOTAL_PX + 'px';
+  for (let h = START_HOUR; h <= END_HOUR; h++) {
+    const lbl = document.createElement('div');
+    lbl.className = 'schedule-time-label';
+    lbl.style.top = ((h - START_HOUR) * HOUR_HEIGHT - 8) + 'px';
+    lbl.textContent = `${h}:00`;
+    gutter.appendChild(lbl);
+  }
+  gridEl.appendChild(gutter);
 
-  hours.forEach(h => {
-    // 時間ラベル
-    const timeCell = document.createElement('div');
-    timeCell.className = 'schedule-time-col';
-    timeCell.textContent = `${h}:00`;
-    gridEl.appendChild(timeCell);
+  // ── 各日列 ──
+  dates.forEach((d, di) => {
+    const dayCol = document.createElement('div');
+    dayCol.className = 'schedule-day-timeline';
+    dayCol.dataset.date = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    dayCol.style.height = TOTAL_PX + 'px';
 
-    // 各日の枠
-    dates.forEach(d => {
-      const cell = document.createElement('div');
-      cell.className = 'schedule-day-col';
+    // 時間グリッド線
+    for (let i = 0; i <= TOTAL_HOURS; i++) {
+      const line = document.createElement('div');
+      line.className = 'schedule-hour-line';
+      line.style.top = (i * HOUR_HEIGHT) + 'px';
+      line.style.borderTop = `1px solid ${i === 0 ? 'var(--ivory-deep)' : 'rgba(232,221,208,0.45)'}`;
+      dayCol.appendChild(line);
+    }
 
-      const matchingRes = reservations.filter(r => {
-        const rDate = new Date(r.desiredDate);
-        const rHour = parseInt(r.desiredTime);
-        return rDate.getFullYear() === d.getFullYear() &&
-               rDate.getMonth()    === d.getMonth()    &&
-               rDate.getDate()     === d.getDate()     &&
-               rHour === h;
-      });
-
-      matchingRes.forEach(r => {
-        const ev = document.createElement('div');
-        ev.className = `schedule-event ${r.status}`;
-        ev.innerHTML = `<div class="schedule-event-time">${r.desiredTime}</div>
-                        <div class="schedule-event-name">${r.name}</div>`;
-        ev.addEventListener('click', () => openModal(r.id));
-        cell.appendChild(ev);
-      });
-      gridEl.appendChild(cell);
+    // この日の予約イベント
+    const dayRes = reservations.filter(r => {
+      const rd = new Date(r.desiredDate);
+      return rd.getFullYear() === d.getFullYear() &&
+             rd.getMonth()    === d.getMonth()    &&
+             rd.getDate()     === d.getDate();
     });
+
+    dayRes.forEach(r => {
+      const startH   = parseInt(r.desiredTime) || 9;
+      const duration = getMenuDuration(r.menu);
+      const top      = (startH - START_HOUR) * HOUR_HEIGHT + 2;
+      const height   = Math.max(duration * HOUR_HEIGHT - 4, 28);
+
+      const ev = document.createElement('div');
+      ev.className = `schedule-event ${r.status}`;
+      ev.dataset.id  = r.id;
+      ev.style.top   = top + 'px';
+      ev.style.height = height + 'px';
+      ev.innerHTML = `
+        <div class="sch-ev-time">${r.desiredTime}</div>
+        <div class="sch-ev-name">${r.name}</div>
+        <div class="sch-ev-menu">${r.menu}</div>
+      `;
+
+      // クリックで詳細モーダル（ドラッグ判定後）
+      ev.addEventListener('click', (e) => {
+        if (!dragMoved) openModal(r.id);
+      });
+      // ドラッグ開始
+      ev.addEventListener('mousedown', (e) => startDrag(e, r, ev, dayCol));
+      dayCol.appendChild(ev);
+    });
+
+    gridEl.appendChild(dayCol);
   });
+}
+
+// ============================================
+// ドラッグ＆ドロップ（スケジュール時間変更）
+// ============================================
+let dragMoved   = false;
+let dragData    = null; // { reservation, origEl, origCol, startX, startY, ghost }
+
+function startDrag(e, reservation, origEl, origCol) {
+  if (e.button !== 0) return;
+  dragMoved = false;
+
+  const rect = origEl.getBoundingClientRect();
+  const ghost = document.createElement('div');
+  ghost.className = `schedule-event-ghost ${reservation.status}`;
+  ghost.style.width  = rect.width + 'px';
+  ghost.style.height = rect.height + 'px';
+  ghost.style.left   = rect.left + 'px';
+  ghost.style.top    = rect.top  + 'px';
+  ghost.innerHTML    = origEl.innerHTML;
+  document.body.appendChild(ghost);
+
+  origEl.classList.add('dragging');
+
+  dragData = {
+    reservation,
+    origEl,
+    origCol,
+    startX: e.clientX,
+    startY: e.clientY,
+    ghost,
+    offsetY: e.clientY - rect.top,
+  };
+
+  document.addEventListener('mousemove', onDrag);
+  document.addEventListener('mouseup',   endDrag);
+  e.preventDefault();
+}
+
+function onDrag(e) {
+  if (!dragData) return;
+  const dx = Math.abs(e.clientX - dragData.startX);
+  const dy = Math.abs(e.clientY - dragData.startY);
+  if (dx > 3 || dy > 3) dragMoved = true;
+  if (!dragMoved) return;
+
+  // ゴースト移動
+  dragData.ghost.style.left = (e.clientX - dragData.ghost.offsetWidth / 2) + 'px';
+  dragData.ghost.style.top  = (e.clientY - dragData.offsetY) + 'px';
+
+  // ドロップ先ハイライト
+  document.querySelectorAll('.schedule-day-timeline').forEach(col => {
+    const r = col.getBoundingClientRect();
+    col.classList.toggle('drag-over', e.clientX >= r.left && e.clientX <= r.right);
+  });
+}
+
+function endDrag(e) {
+  document.removeEventListener('mousemove', onDrag);
+  document.removeEventListener('mouseup',   endDrag);
+  if (!dragData) return;
+
+  const { reservation, origEl, ghost } = dragData;
+  origEl.classList.remove('dragging');
+  ghost.remove();
+  document.querySelectorAll('.drag-over').forEach(c => c.classList.remove('drag-over'));
+
+  if (dragMoved) {
+    // どの日列にドロップしたか
+    let targetDate = null;
+    let targetCol  = null;
+    document.querySelectorAll('.schedule-day-timeline').forEach(col => {
+      const r = col.getBoundingClientRect();
+      if (e.clientX >= r.left && e.clientX <= r.right) {
+        targetDate = col.dataset.date;
+        targetCol  = col;
+      }
+    });
+
+    if (targetDate && targetCol) {
+      // Y 座標から時間を計算してスナップ
+      const colRect = targetCol.getBoundingClientRect();
+      const rawY    = e.clientY - colRect.top;
+      const snappedSlot = Math.max(0, Math.min(Math.round(rawY / HOUR_HEIGHT), TOTAL_HOURS - 1));
+      const newHour = START_HOUR + snappedSlot;
+      const newTime = `${newHour}:00`;
+
+      // localStorage 更新
+      const reservations = loadReservations();
+      const idx = reservations.findIndex(r => r.id === reservation.id);
+      if (idx !== -1) {
+        const oldDate = reservations[idx].desiredDate;
+        const oldTime = reservations[idx].desiredTime;
+        reservations[idx].desiredDate = targetDate;
+        reservations[idx].desiredTime = newTime;
+        saveReservations(reservations);
+
+        // GAS に反映
+        if (reservations[idx].rowIndex) {
+          syncDateTimeToSheet(reservations[idx].rowIndex, targetDate, newTime);
+        }
+
+        // 確認トースト
+        showToast(`${reservation.name} → ${targetDate.slice(5).replace('-','/')} ${newTime} に変更しました`);
+      }
+
+      renderSchedule();
+      renderReservationsTable();
+    }
+  }
+
+  dragData  = null;
+  dragMoved = false;
+}
+
+// 日時変更をスプレッドシートに反映
+function syncDateTimeToSheet(rowIndex, newDate, newTime) {
+  const dateForSheet = newDate.replace(/-/g, '/');
+  fetch(GAS_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify({ action: 'updateDateTime', rowIndex, newDate: dateForSheet, newTime }),
+  }).catch(e => console.warn('日時更新エラー:', e));
+}
+
+// トースト通知
+function showToast(msg) {
+  let toast = document.getElementById('drag-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'drag-toast';
+    toast.style.cssText = 'position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);background:var(--sage-dark,#4a6b4d);color:#fff;padding:0.6rem 1.4rem;border-radius:2rem;font-size:0.82rem;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,.18);transition:opacity 0.3s;';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.style.opacity = '1';
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(() => { toast.style.opacity = '0'; }, 2500);
 }
 
 // ============================================
