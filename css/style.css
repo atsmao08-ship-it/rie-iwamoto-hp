@@ -923,6 +923,36 @@ input, textarea, select { font-family: inherit; }
 .timeslot-btn:hover { border-color: var(--sage); color: var(--sage-dark); }
 .timeslot-btn.selected { background: var(--sage); border-color: var(--sage); color: var(--white); }
 .timeslot-btn.booked { background: var(--ivory-mid); border-color: var(--ivory-deep); color: var(--text-light); cursor: not-allowed; text-decoration: line-through; font-size: 0.8rem; }
+.timeslot-btn.recommended {
+  background: linear-gradient(135deg, #fffbea 0%, #fff8dc 100%);
+  border-color: var(--gold);
+  color: #7a5a00;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(196,168,130,.25);
+}
+.timeslot-btn.recommended:hover { border-color: #b8960a; background: #fff3c0; }
+.timeslot-btn.recommended.selected { background: var(--sage); border-color: var(--sage); color: var(--white); }
+.recommend-label {
+  display: inline-block;
+  margin-left: 0.35rem;
+  background: var(--gold);
+  color: var(--white);
+  font-size: 0.62rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 1rem;
+  vertical-align: middle;
+  letter-spacing: 0.02em;
+}
+.timeslot-hint {
+  grid-column: 1 / -1;
+  font-size: 0.75rem;
+  color: #7a5a00;
+  background: #fffbea;
+  border: 1px solid #f0d98a;
+  border-radius: var(--radius);
+  padding: 0.45rem 0.75rem;
+  margin-bottom: 0.25rem;
+}
 
 .selected-datetime {
   display: flex;
