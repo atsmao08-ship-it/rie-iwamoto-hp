@@ -210,18 +210,91 @@ async function selectDate(date, el) {
   document.getElementById('timeslot-grid').innerHTML = '';
 
   let bookedSlots = [];
+  let bookings    = [];
   try {
     const res = await fetch(`${GAS_URL}?date=${encodeURIComponent(dateStr)}`);
     const json = await res.json();
-    bookedSlots = json.booked || [];
+    bookedSlots = json.booked    || [];
+    bookings    = json.bookings  || [];
   } catch (e) {
-    // GAS未設定時はすべて空きとして扱う
     bookedSlots = [];
+    bookings    = [];
   }
 
-  renderTimeSlots(bookedSlots);
+  renderTimeSlots(bookedSlots, bookings);
   updateDatetimeDisplay();
   checkStep2();
+}
+
+// ── 選択済みメニューの施術時間を返す ──
+function getNewBookingDuration() {
+  const menu = state.menuName;
+  if (!menu) return 1;
+  if (menu.includes('縮毛') || menu.includes('ストレート')) return 3;
+  if (menu.includes('パーマ')) return 2.5;
+  if ((menu.includes('TR') || menu.includes('トリートメント') || menu.includes('髪質改善')) && menu.includes('カラー')) return 2.5;
+  if (menu.includes('カラー') && menu.includes('カット')) return 2;
+  if (menu.includes('カラー')) return 1.5;
+  if (menu.includes('メンズ') || menu.includes('キッズ') || menu.includes('子ども')) return 0.75;
+  return 1;
+}
+
+// ── スケジュールの空きを分析しておすすめスロットを返す ──
+function calcRecommendedSlots(bookings, newDuration) {
+  if (!bookings || bookings.length === 0) return new Set();
+
+  const recommended = new Set();
+
+  // 既存予約のブロック範囲
+  function isHourBlocked(h) {
+    return bookings.some(b => h >= b.startHour && h < b.endHour);
+  }
+  function isRangeFree(startH, duration) {
+    for (let h = startH; h < startH + duration; h += 0.5) {
+      if (isHourBlocked(h)) return false;
+    }
+    return true;
+  }
+
+  timeSlots.forEach(t => {
+    const h = parseInt(t);
+    if (isHourBlocked(h)) return;          // すでに予約済み
+    if (!isRangeFree(h, newDuration)) return; // 施術時間が収まらない
+
+    const newEnd = h + newDuration;
+    let score = 0;
+
+    // ★ 直前に予約が終わる → 連続で入れられる
+    const prevEnds = bookings.find(b => Math.abs(b.endHour - h) < 0.1);
+    if (prevEnds) score += 5;
+
+    // ★ 直後に予約が始まる → ぴったり埋まる
+    const nextStarts = bookings.find(b => Math.abs(b.startHour - newEnd) < 0.1);
+    if (nextStarts) score += 5;
+
+    // ★ 前後どちらもぴったり → 完璧に穴埋め
+    if (prevEnds && nextStarts) score += 3;
+
+    // ✗ 中途半端な隙間が生まれる（1時間未満）
+    const nextAfter = bookings
+      .filter(b => b.startHour > h)
+      .sort((a, b) => a.startHour - b.startHour)[0];
+    if (nextAfter) {
+      const gap = nextAfter.startHour - newEnd;
+      if (gap > 0 && gap < 1) score -= 5; // 小さな隙間は避ける
+    }
+    const prevBefore = bookings
+      .filter(b => b.endHour <= h)
+      .sort((a, b) => b.endHour - a.endHour)[0];
+    if (prevBefore) {
+      const gap = h - prevBefore.endHour;
+      if (gap > 0 && gap < 1) score -= 5;
+    }
+
+    if (score >= 4) recommended.add(t);
+  });
+
+  return recommended;
 }
 
 document.getElementById('cal-prev').addEventListener('click', () => {
@@ -238,18 +311,41 @@ document.getElementById('cal-next').addEventListener('click', () => {
 // ── 時間帯 ──
 const timeSlots = ['9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
 
-function renderTimeSlots(bookedSlots = []) {
+function renderTimeSlots(bookedSlots = [], bookings = []) {
   const grid = document.getElementById('timeslot-grid');
   const note = document.getElementById('timeslot-note');
   note.style.display = 'none';
   grid.innerHTML = '';
 
+  const newDuration     = getNewBookingDuration();
+  const recommendedSet  = calcRecommendedSlots(bookings, newDuration);
+  const hasRecommended  = recommendedSet.size > 0;
+
+  // おすすめがある場合はヒント表示
+  if (hasRecommended) {
+    const hint = document.createElement('p');
+    hint.className = 'timeslot-hint';
+    hint.textContent = '★ のついた時間帯はスケジュールの空きを埋めるのに最適です';
+    grid.appendChild(hint);
+  }
+
   timeSlots.forEach(t => {
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    const isBooked = bookedSlots.includes(t);
-    btn.className = 'timeslot-btn' + (isBooked ? ' booked' : '');
-    btn.textContent = isBooked ? `${t} 予約済` : t;
+    const btn           = document.createElement('button');
+    btn.type            = 'button';
+    const isBooked      = bookedSlots.includes(t);
+    const isRecommended = !isBooked && recommendedSet.has(t);
+
+    btn.className = 'timeslot-btn' +
+      (isBooked      ? ' booked'      : '') +
+      (isRecommended ? ' recommended' : '');
+
+    if (isBooked) {
+      btn.textContent = `${t} 予約済`;
+    } else if (isRecommended) {
+      btn.innerHTML = `★ ${t} <span class="recommend-label">おすすめ</span>`;
+    } else {
+      btn.textContent = t;
+    }
     btn.disabled = isBooked;
 
     if (t === state.time) btn.classList.add('selected');
