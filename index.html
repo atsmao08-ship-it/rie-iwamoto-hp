@@ -299,16 +299,17 @@
 
           <!-- フォーム内タブ -->
           <div class="form-menu-tabs">
-            <button type="button" class="form-menu-tab active" data-ftab="f-ladies">Ladies</button>
-            <button type="button" class="form-menu-tab" data-ftab="f-mens">Men's</button>
-            <button type="button" class="form-menu-tab" data-ftab="f-kids">Kids</button>
-            <button type="button" class="form-menu-tab" data-ftab="f-set">Hair Set</button>
+            <button type="button" class="form-menu-tab active" data-ftab="f-cut">カット</button>
+            <button type="button" class="form-menu-tab" data-ftab="f-color">カラー</button>
+            <button type="button" class="form-menu-tab" data-ftab="f-perm">パーマ</button>
+            <button type="button" class="form-menu-tab" data-ftab="f-straight">縮毛矯正</button>
+            <button type="button" class="form-menu-tab" data-ftab="f-hairset">ヘアセット</button>
           </div>
 
-          <!-- レディース -->
-          <div class="form-menu-tab-content active" id="f-ladies">
+          <!-- カット -->
+          <div class="form-menu-tab-content active" id="f-cut">
             <div class="menu-select-group">
-              <h4 class="menu-select-category">カット</h4>
+              <h4 class="menu-select-category">レディース</h4>
               <label class="menu-radio"><input type="radio" name="base-menu" value="前髪カット" data-price="1100"><span class="radio-custom"></span><span class="radio-label">前髪カット</span><span class="radio-price">¥1,100</span></label>
               <label class="menu-radio"><input type="radio" name="base-menu" value="前髪＋顔まわりカット" data-price="2200"><span class="radio-custom"></span><span class="radio-label">前髪＋顔まわりカット</span><span class="radio-price">¥2,200</span></label>
               <label class="menu-radio"><input type="radio" name="base-menu" value="小顔cut（シャンプー・ブロー込）" data-price="5500"><span class="radio-custom"></span><span class="radio-label">小顔cut <span class="menu-note">シャンプー・ブロー込</span></span><span class="radio-price">¥5,500</span></label>
@@ -317,45 +318,7 @@
               <label class="menu-radio"><input type="radio" name="base-menu" value="アイロン仕上げ" data-price="2200"><span class="radio-custom"></span><span class="radio-label">アイロン仕上げ</span><span class="radio-price">¥2,200</span></label>
             </div>
             <div class="menu-select-group">
-              <h4 class="menu-select-category">カット＋カラー</h4>
-              <label class="menu-radio"><input type="radio" name="base-menu" value="小顔cut＋ケアinカラー" data-price="8900"><span class="radio-custom"></span><span class="radio-label">小顔cut＋ケアinカラー</span><span class="radio-price">¥8,900</span></label>
-              <label class="menu-radio"><input type="radio" name="base-menu" value="小顔cut＋カラー＋クイックTR" data-price="9900"><span class="radio-custom"></span><span class="radio-label">小顔cut＋カラー＋クイックTR</span><span class="radio-price">¥9,900</span></label>
-              <label class="menu-radio"><input type="radio" name="base-menu" value="小顔cut＋カラー＋システムTR" data-price="12900"><span class="radio-custom"></span><span class="radio-label">小顔cut＋カラー＋システムTR</span><span class="radio-price">¥12,900</span></label>
-              <label class="menu-radio"><input type="radio" name="base-menu" value="小顔cut＋カラー＋髪質改善TR" data-price="15900"><span class="radio-custom"></span><span class="radio-label">小顔cut＋カラー＋髪質改善TR</span><span class="radio-price">¥15,900</span></label>
-              <label class="menu-radio"><input type="radio" name="base-menu" value="小顔cut＋カラー＋プレミアム髪質改善TR" data-price="17900"><span class="radio-custom"></span><span class="radio-label">小顔cut＋カラー＋プレミアム髪質改善TR</span><span class="radio-price">¥17,900</span></label>
-            </div>
-            <div class="menu-select-group">
-              <h4 class="menu-select-category">トリートメント</h4>
-              <label class="menu-radio"><input type="radio" name="base-menu" value="クイックTR" data-price="1100"><span class="radio-custom"></span><span class="radio-label">クイックTR</span><span class="radio-price">¥1,100</span></label>
-              <label class="menu-radio"><input type="radio" name="base-menu" value="システムTR（3step）" data-price="3000"><span class="radio-custom"></span><span class="radio-label">システムTR <span class="menu-note">3step</span></span><span class="radio-price">¥3,000</span></label>
-              <label class="menu-radio"><input type="radio" name="base-menu" value="髪質改善TR" data-price="5000"><span class="radio-custom"></span><span class="radio-label">髪質改善TR</span><span class="radio-price">¥5,000</span></label>
-              <label class="menu-radio"><input type="radio" name="base-menu" value="集中補修TR" data-price="6000"><span class="radio-custom"></span><span class="radio-label">集中補修TR</span><span class="radio-price">¥6,000</span></label>
-            </div>
-            <div class="menu-select-group">
-              <h4 class="menu-select-category">カラー</h4>
-              <label class="menu-radio"><input type="radio" name="base-menu" value="イヤリングカラー（要相談）" data-price="8800"><span class="radio-custom"></span><span class="radio-label">イヤリングカラー <span class="menu-note">要相談</span></span><span class="radio-price">¥8,800</span></label>
-              <label class="menu-radio"><input type="radio" name="base-menu" value="インナーカラー（要相談）" data-price="14000"><span class="radio-custom"></span><span class="radio-label">インナーカラー <span class="menu-note">要相談</span></span><span class="radio-price">¥14,000</span></label>
-              <label class="menu-radio"><input type="radio" name="base-menu" value="ケアブリーチWカラー（要相談）" data-price="18000"><span class="radio-custom"></span><span class="radio-label">ケアブリーチWカラー <span class="menu-note">カット別・要相談</span></span><span class="radio-price">¥18,000</span></label>
-            </div>
-            <div class="menu-select-group">
-              <h4 class="menu-select-category">パーマ</h4>
-              <label class="menu-radio"><input type="radio" name="base-menu" value="カット＋パーマ" data-price="11000"><span class="radio-custom"></span><span class="radio-label">カット＋パーマ</span><span class="radio-price">¥11,000</span></label>
-              <label class="menu-radio"><input type="radio" name="base-menu" value="部分パーマ（要相談）" data-price="4400"><span class="radio-custom"></span><span class="radio-label">部分パーマ <span class="menu-note">要相談</span></span><span class="radio-price">¥4,400〜</span></label>
-            </div>
-            <div class="menu-select-group">
-              <h4 class="menu-select-category">縮毛矯正</h4>
-              <label class="menu-radio"><input type="radio" name="base-menu" value="前髪縮毛矯正" data-price="8800"><span class="radio-custom"></span><span class="radio-label">前髪縮毛矯正</span><span class="radio-price">¥8,800</span></label>
-              <label class="menu-radio"><input type="radio" name="base-menu" value="縮毛矯正＋小顔cut" data-price="16000"><span class="radio-custom"></span><span class="radio-label">縮毛矯正＋小顔cut</span><span class="radio-price">¥16,000</span></label>
-              <label class="menu-radio"><input type="radio" name="base-menu" value="カット＋縮毛矯正＋システムTR" data-price="21000"><span class="radio-custom"></span><span class="radio-label">カット＋縮毛矯正＋システムTR</span><span class="radio-price">¥21,000</span></label>
-              <label class="menu-radio"><input type="radio" name="base-menu" value="Premium縮毛矯正＋cut" data-price="18000"><span class="radio-custom"></span><span class="radio-label">Premium縮毛矯正＋cut</span><span class="radio-price">¥18,000</span></label>
-              <label class="menu-radio"><input type="radio" name="base-menu" value="カット＋Premium縮毛矯正＋髪質改善TR" data-price="23000"><span class="radio-custom"></span><span class="radio-label">カット＋Premium縮毛矯正＋髪質改善TR</span><span class="radio-price">¥23,000</span></label>
-            </div>
-          </div>
-
-          <!-- メンズ -->
-          <div class="form-menu-tab-content" id="f-mens">
-            <div class="menu-select-group">
-              <h4 class="menu-select-category">カット</h4>
+              <h4 class="menu-select-category">メンズ</h4>
               <label class="menu-radio"><input type="radio" name="base-menu" value="刈り上げのみ" data-price="2200"><span class="radio-custom"></span><span class="radio-label">刈り上げのみ <span class="menu-note">サイド・バックのみ</span></span><span class="radio-price">¥2,200</span></label>
               <label class="menu-radio"><input type="radio" name="base-menu" value="眉カット" data-price="1100"><span class="radio-custom"></span><span class="radio-label">眉カット</span><span class="radio-price">¥1,100</span></label>
               <label class="menu-radio"><input type="radio" name="base-menu" value="メンズカット（シャンプー・スタイリング込）" data-price="4400"><span class="radio-custom"></span><span class="radio-label">メンズカット <span class="menu-note">シャンプー・スタイリング込</span></span><span class="radio-price">¥4,400</span></label>
@@ -364,22 +327,7 @@
               <label class="menu-radio"><input type="radio" name="base-menu" value="ヘッドスパ" data-price="3300"><span class="radio-custom"></span><span class="radio-label">ヘッドスパ</span><span class="radio-price">¥3,300</span></label>
             </div>
             <div class="menu-select-group">
-              <h4 class="menu-select-category">カット＋カラー</h4>
-              <label class="menu-radio"><input type="radio" name="base-menu" value="メンズカット＋カラー" data-price="8900"><span class="radio-custom"></span><span class="radio-label">メンズカット＋カラー</span><span class="radio-price">¥8,900</span></label>
-              <label class="menu-radio"><input type="radio" name="base-menu" value="メンズカット＋白髪染め" data-price="9900"><span class="radio-custom"></span><span class="radio-label">メンズカット＋白髪染め</span><span class="radio-price">¥9,900〜</span></label>
-            </div>
-            <div class="menu-select-group">
-              <h4 class="menu-select-category">パーマ</h4>
-              <label class="menu-radio"><input type="radio" name="base-menu" value="メンズカット＋パーマ" data-price="9900"><span class="radio-custom"></span><span class="radio-label">メンズカット＋パーマ</span><span class="radio-price">¥9,900</span></label>
-              <label class="menu-radio"><input type="radio" name="base-menu" value="メンズカット＋ピンパーマ" data-price="10900"><span class="radio-custom"></span><span class="radio-label">メンズカット＋ピンパーマ</span><span class="radio-price">¥10,900</span></label>
-              <label class="menu-radio"><input type="radio" name="base-menu" value="メンズカット＋特殊パーマ（要相談）" data-price="12900"><span class="radio-custom"></span><span class="radio-label">メンズカット＋特殊パーマ <span class="menu-note">ツイスト・スパイラル・要相談</span></span><span class="radio-price">¥12,900</span></label>
-            </div>
-          </div>
-
-          <!-- キッズ -->
-          <div class="form-menu-tab-content" id="f-kids">
-            <div class="menu-select-group">
-              <h4 class="menu-select-category">キッズ・学生カット</h4>
+              <h4 class="menu-select-category">キッズ・学生</h4>
               <label class="menu-radio"><input type="radio" name="base-menu" value="キッズカット（未就学児）" data-price="2200"><span class="radio-custom"></span><span class="radio-label">キッズカット <span class="menu-note">未就学児</span></span><span class="radio-price">¥2,200</span></label>
               <label class="menu-radio"><input type="radio" name="base-menu" value="キッズカット（小学生）" data-price="2750"><span class="radio-custom"></span><span class="radio-label">キッズカット <span class="menu-note">小学生</span></span><span class="radio-price">¥2,750</span></label>
               <label class="menu-radio"><input type="radio" name="base-menu" value="ジュニアカット（中学生）" data-price="3300"><span class="radio-custom"></span><span class="radio-label">ジュニアカット <span class="menu-note">中学生</span></span><span class="radio-price">¥3,300</span></label>
@@ -387,8 +335,56 @@
             </div>
           </div>
 
+          <!-- カラー -->
+          <div class="form-menu-tab-content" id="f-color">
+            <div class="menu-select-group">
+              <h4 class="menu-select-category">カット＋カラーセット</h4>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="小顔cut＋ケアinカラー" data-price="8900"><span class="radio-custom"></span><span class="radio-label">小顔cut＋ケアinカラー</span><span class="radio-price">¥8,900</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="小顔cut＋カラー＋クイックTR" data-price="9900"><span class="radio-custom"></span><span class="radio-label">小顔cut＋カラー＋クイックTR</span><span class="radio-price">¥9,900</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="小顔cut＋カラー＋システムTR" data-price="12900"><span class="radio-custom"></span><span class="radio-label">小顔cut＋カラー＋システムTR</span><span class="radio-price">¥12,900</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="小顔cut＋カラー＋髪質改善TR" data-price="15900"><span class="radio-custom"></span><span class="radio-label">小顔cut＋カラー＋髪質改善TR</span><span class="radio-price">¥15,900</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="小顔cut＋カラー＋プレミアム髪質改善TR" data-price="17900"><span class="radio-custom"></span><span class="radio-label">小顔cut＋カラー＋プレミアム髪質改善TR</span><span class="radio-price">¥17,900</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="メンズカット＋カラー" data-price="8900"><span class="radio-custom"></span><span class="radio-label">メンズカット＋カラー</span><span class="radio-price">¥8,900</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="メンズカット＋白髪染め" data-price="9900"><span class="radio-custom"></span><span class="radio-label">メンズカット＋白髪染め</span><span class="radio-price">¥9,900〜</span></label>
+            </div>
+            <div class="menu-select-group">
+              <h4 class="menu-select-category">カラーのみ <span class="menu-note">要相談</span></h4>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="イヤリングカラー（要相談）" data-price="8800"><span class="radio-custom"></span><span class="radio-label">イヤリングカラー <span class="menu-note">要相談</span></span><span class="radio-price">¥8,800</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="インナーカラー（要相談）" data-price="14000"><span class="radio-custom"></span><span class="radio-label">インナーカラー <span class="menu-note">要相談</span></span><span class="radio-price">¥14,000</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="ケアブリーチWカラー（要相談）" data-price="18000"><span class="radio-custom"></span><span class="radio-label">ケアブリーチWカラー <span class="menu-note">カット別・要相談</span></span><span class="radio-price">¥18,000</span></label>
+            </div>
+          </div>
+
+          <!-- パーマ -->
+          <div class="form-menu-tab-content" id="f-perm">
+            <div class="menu-select-group">
+              <h4 class="menu-select-category">レディース</h4>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="カット＋パーマ" data-price="11000"><span class="radio-custom"></span><span class="radio-label">カット＋パーマ</span><span class="radio-price">¥11,000</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="部分パーマ（要相談）" data-price="4400"><span class="radio-custom"></span><span class="radio-label">部分パーマ <span class="menu-note">要相談</span></span><span class="radio-price">¥4,400〜</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="デジタルパーマ（追加メニュー）" data-price="2000"><span class="radio-custom"></span><span class="radio-label">デジタルパーマ <span class="menu-note">追加メニュー</span></span><span class="radio-price">+¥2,000</span></label>
+            </div>
+            <div class="menu-select-group">
+              <h4 class="menu-select-category">メンズ</h4>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="メンズカット＋パーマ" data-price="9900"><span class="radio-custom"></span><span class="radio-label">メンズカット＋パーマ</span><span class="radio-price">¥9,900</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="メンズカット＋ピンパーマ" data-price="10900"><span class="radio-custom"></span><span class="radio-label">メンズカット＋ピンパーマ</span><span class="radio-price">¥10,900</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="メンズカット＋特殊パーマ（要相談）" data-price="12900"><span class="radio-custom"></span><span class="radio-label">メンズカット＋特殊パーマ <span class="menu-note">ツイスト・スパイラル・要相談</span></span><span class="radio-price">¥12,900</span></label>
+            </div>
+          </div>
+
+          <!-- 縮毛矯正 -->
+          <div class="form-menu-tab-content" id="f-straight">
+            <div class="menu-select-group">
+              <h4 class="menu-select-category">縮毛矯正メニュー</h4>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="前髪縮毛矯正" data-price="8800"><span class="radio-custom"></span><span class="radio-label">前髪縮毛矯正</span><span class="radio-price">¥8,800</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="縮毛矯正＋小顔cut" data-price="16000"><span class="radio-custom"></span><span class="radio-label">縮毛矯正＋小顔cut</span><span class="radio-price">¥16,000</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="カット＋縮毛矯正＋システムTR" data-price="21000"><span class="radio-custom"></span><span class="radio-label">カット＋縮毛矯正＋システムTR</span><span class="radio-price">¥21,000</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="Premium縮毛矯正＋cut" data-price="18000"><span class="radio-custom"></span><span class="radio-label">Premium縮毛矯正＋cut</span><span class="radio-price">¥18,000</span></label>
+              <label class="menu-radio"><input type="radio" name="base-menu" value="カット＋Premium縮毛矯正＋髪質改善TR" data-price="23000"><span class="radio-custom"></span><span class="radio-label">カット＋Premium縮毛矯正＋髪質改善TR</span><span class="radio-price">¥23,000</span></label>
+            </div>
+          </div>
+
           <!-- ヘアセット -->
-          <div class="form-menu-tab-content" id="f-set">
+          <div class="form-menu-tab-content" id="f-hairset">
             <div class="menu-select-group">
               <h4 class="menu-select-category">ヘアセット</h4>
               <label class="menu-radio"><input type="radio" name="base-menu" value="ヘアセット（巻き・簡単アレンジ）" data-price="3300"><span class="radio-custom"></span><span class="radio-label">ヘアセット（巻き・簡単アレンジ）</span><span class="radio-price">¥3,300</span></label>
