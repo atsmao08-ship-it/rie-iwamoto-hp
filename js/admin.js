@@ -10,6 +10,7 @@ const CONFIG = {
   PASSWORD: 'rie1024',          // ← パスワードを変更する場合はここを編集
   STORAGE_KEY: 'rie_reservations',
   CUSTOMER_KEY: 'rie_customers',
+  HOLIDAY_KEY:  'rie_holidays',
 };
 
 // GAS エンドポイント（main.js と同じ URL）
@@ -251,6 +252,7 @@ async function initDashboard() {
   initReservations();
   initCustomers();
   initAnalytics();
+  initHolidays();
 
   // バックグラウンドでスプレッドシートからライブデータ取得
   setRefreshStatus('読込中…');
@@ -315,10 +317,11 @@ function updateTopbarDate() {
 // Tab Navigation
 // ============================================
 const tabTitles = {
-  schedule: 'スケジュール',
+  schedule:     'スケジュール',
   reservations: '予約管理',
-  customers: '顧客管理',
-  analytics: '売上分析',
+  customers:    '顧客管理',
+  analytics:    '売上分析',
+  holidays:     '休日管理',
 };
 
 function initTabs() {
@@ -489,16 +492,19 @@ function renderSchedule() {
       ev.addEventListener('click', (e) => {
         if (!dragMoved && !resizeMoved) openModal(r.id);
       });
-      // ドラッグ開始（リサイズハンドル以外）
-      ev.addEventListener('mousedown', (e) => {
+      // ドラッグ開始（リサイズハンドル以外）マウス＆タッチ共通
+      const onEvDown = (e) => {
         if (e.target.classList.contains('sch-ev-resize')) return;
         startDrag(e, r, ev, dayCol);
-      });
+      };
+      ev.addEventListener('mousedown',  onEvDown);
+      ev.addEventListener('touchstart', onEvDown, { passive: false });
+
       // リサイズ開始
-      ev.querySelector('.sch-ev-resize').addEventListener('mousedown', (e) => {
-        e.stopPropagation();
-        startResize(e, r, ev);
-      });
+      const resizeEl = ev.querySelector('.sch-ev-resize');
+      const onResDown = (e) => { e.stopPropagation(); startResize(e, r, ev); };
+      resizeEl.addEventListener('mousedown',  onResDown);
+      resizeEl.addEventListener('touchstart', onResDown, { passive: false });
       dayCol.appendChild(ev);
     });
 
@@ -512,9 +518,17 @@ function renderSchedule() {
 let dragMoved   = false;
 let dragData    = null; // { reservation, origEl, origCol, startX, startY, ghost }
 
+// タッチ・マウス両対応の座標取得
+function getCoords(e) {
+  if (e.touches && e.touches[0])         return e.touches[0];
+  if (e.changedTouches && e.changedTouches[0]) return e.changedTouches[0];
+  return e;
+}
+
 function startDrag(e, reservation, origEl, origCol) {
-  if (e.button !== 0) return;
+  if (e.button !== undefined && e.button !== 0) return;
   dragMoved = false;
+  const coords = getCoords(e);
 
   const rect = origEl.getBoundingClientRect();
   const ghost = document.createElement('div');
@@ -532,39 +546,46 @@ function startDrag(e, reservation, origEl, origCol) {
     reservation,
     origEl,
     origCol,
-    startX: e.clientX,
-    startY: e.clientY,
+    startX:  coords.clientX,
+    startY:  coords.clientY,
     ghost,
-    offsetY: e.clientY - rect.top,
+    offsetY: coords.clientY - rect.top,
   };
 
   document.addEventListener('mousemove', onDrag);
   document.addEventListener('mouseup',   endDrag);
+  document.addEventListener('touchmove', onDrag,  { passive: false });
+  document.addEventListener('touchend',  endDrag);
   e.preventDefault();
 }
 
 function onDrag(e) {
   if (!dragData) return;
-  const dx = Math.abs(e.clientX - dragData.startX);
-  const dy = Math.abs(e.clientY - dragData.startY);
+  if (e.cancelable) e.preventDefault();
+  const coords = getCoords(e);
+  const dx = Math.abs(coords.clientX - dragData.startX);
+  const dy = Math.abs(coords.clientY - dragData.startY);
   if (dx > 3 || dy > 3) dragMoved = true;
   if (!dragMoved) return;
 
   // ゴースト移動
-  dragData.ghost.style.left = (e.clientX - dragData.ghost.offsetWidth / 2) + 'px';
-  dragData.ghost.style.top  = (e.clientY - dragData.offsetY) + 'px';
+  dragData.ghost.style.left = (coords.clientX - dragData.ghost.offsetWidth / 2) + 'px';
+  dragData.ghost.style.top  = (coords.clientY - dragData.offsetY) + 'px';
 
   // ドロップ先ハイライト
   document.querySelectorAll('.schedule-day-timeline').forEach(col => {
     const r = col.getBoundingClientRect();
-    col.classList.toggle('drag-over', e.clientX >= r.left && e.clientX <= r.right);
+    col.classList.toggle('drag-over', coords.clientX >= r.left && coords.clientX <= r.right);
   });
 }
 
 function endDrag(e) {
   document.removeEventListener('mousemove', onDrag);
   document.removeEventListener('mouseup',   endDrag);
+  document.removeEventListener('touchmove', onDrag);
+  document.removeEventListener('touchend',  endDrag);
   if (!dragData) return;
+  const coords = getCoords(e);
 
   const { reservation, origEl, ghost } = dragData;
   origEl.classList.remove('dragging');
@@ -577,7 +598,7 @@ function endDrag(e) {
     let targetCol  = null;
     document.querySelectorAll('.schedule-day-timeline').forEach(col => {
       const r = col.getBoundingClientRect();
-      if (e.clientX >= r.left && e.clientX <= r.right) {
+      if (coords.clientX >= r.left && coords.clientX <= r.right) {
         targetDate = col.dataset.date;
         targetCol  = col;
       }
@@ -586,7 +607,7 @@ function endDrag(e) {
     if (targetDate && targetCol) {
       // Y 座標から時間を計算して30分スナップ
       const colRect  = targetCol.getBoundingClientRect();
-      const rawY     = e.clientY - colRect.top;
+      const rawY     = coords.clientY - colRect.top;
       const SLOT_PX  = HOUR_HEIGHT / 2;  // 1スロット = 30分 = 32px
       const maxSlots = TOTAL_HOURS * 2 - 1;
       const snappedSlot = Math.max(0, Math.min(Math.round(rawY / SLOT_PX), maxSlots));
@@ -629,26 +650,31 @@ let resizeMoved = false;
 let resizeData  = null;
 
 function startResize(e, reservation, el) {
-  if (e.button !== 0) return;
+  if (e.button !== undefined && e.button !== 0) return;
   resizeMoved = false;
+  const coords = getCoords(e);
 
   resizeData = {
     reservation,
     el,
-    startY:      e.clientY,
+    startY:      coords.clientY,
     startHeight: el.getBoundingClientRect().height,
   };
 
   el.classList.add('resizing');
   document.addEventListener('mousemove', onResize);
   document.addEventListener('mouseup',   endResize);
+  document.addEventListener('touchmove', onResize,  { passive: false });
+  document.addEventListener('touchend',  endResize);
   e.preventDefault();
 }
 
 function onResize(e) {
   if (!resizeData) return;
+  if (e.cancelable) e.preventDefault();
+  const coords = getCoords(e);
   const { el, startY, startHeight } = resizeData;
-  const dy = e.clientY - startY;
+  const dy = coords.clientY - startY;
   if (Math.abs(dy) > 3) resizeMoved = true;
   if (!resizeMoved) return;
 
@@ -671,6 +697,8 @@ function onResize(e) {
 function endResize(e) {
   document.removeEventListener('mousemove', onResize);
   document.removeEventListener('mouseup',   endResize);
+  document.removeEventListener('touchmove', onResize);
+  document.removeEventListener('touchend',  endResize);
   if (!resizeData) return;
 
   const { reservation, el } = resizeData;
@@ -1048,6 +1076,118 @@ function initAnalytics() {
         },
       },
     },
+  });
+}
+
+// ============================================
+// Holiday Management（休日管理）
+// ============================================
+let holYear, holMonth;
+
+function loadHolidays() {
+  try { return JSON.parse(localStorage.getItem(CONFIG.HOLIDAY_KEY) || '[]'); }
+  catch { return []; }
+}
+function saveHolidays(arr) {
+  localStorage.setItem(CONFIG.HOLIDAY_KEY, JSON.stringify(arr));
+}
+function dateToStr(y, m, d) {
+  return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+}
+
+function initHolidays() {
+  const now = new Date();
+  holYear  = now.getFullYear();
+  holMonth = now.getMonth();
+
+  document.getElementById('hol-prev').addEventListener('click', () => {
+    holMonth--;
+    if (holMonth < 0) { holMonth = 11; holYear--; }
+    renderHolidayCal();
+  });
+  document.getElementById('hol-next').addEventListener('click', () => {
+    holMonth++;
+    if (holMonth > 11) { holMonth = 0; holYear++; }
+    renderHolidayCal();
+  });
+  renderHolidayCal();
+}
+
+function renderHolidayCal() {
+  const holidays = loadHolidays();
+  const now = new Date(); now.setHours(0,0,0,0);
+  const label = document.getElementById('hol-month-label');
+  label.textContent = `${holYear}年 ${holMonth + 1}月`;
+
+  const grid = document.getElementById('hol-cal-grid');
+  grid.innerHTML = '';
+
+  const firstDow  = new Date(holYear, holMonth, 1).getDay(); // 0=日
+  const daysInMonth = new Date(holYear, holMonth + 1, 0).getDate();
+  // 月曜始まりにオフセット調整（日=0→6, 月=1→0…）
+  const offset = (firstDow + 6) % 7;
+
+  for (let i = 0; i < offset; i++) {
+    const blank = document.createElement('div');
+    blank.className = 'hol-day empty';
+    grid.appendChild(blank);
+  }
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const date    = new Date(holYear, holMonth, d);
+    const dateStr = dateToStr(holYear, holMonth, d);
+    const isPast  = date < now;
+    const isHol   = holidays.includes(dateStr);
+    const isToday = date.toDateString() === now.toDateString();
+
+    const btn = document.createElement('button');
+    btn.className = 'hol-day' +
+      (isPast  ? ' past'    : '') +
+      (isHol   ? ' holiday' : '') +
+      (isToday ? ' today'   : '');
+    btn.textContent = d;
+    btn.title = isHol ? `${holYear}/${holMonth+1}/${d} 休日（クリックで解除）` : `${holYear}/${holMonth+1}/${d} クリックで休日設定`;
+
+    if (!isPast) {
+      btn.addEventListener('click', () => {
+        const list = loadHolidays();
+        const idx  = list.indexOf(dateStr);
+        if (idx === -1) {
+          list.push(dateStr);
+          list.sort();
+        } else {
+          list.splice(idx, 1);
+        }
+        saveHolidays(list);
+        renderHolidayCal();
+        renderHolidayList();
+        showToast(idx === -1 ? `${holMonth+1}/${d} を休日に設定しました` : `${holMonth+1}/${d} の休日を解除しました`);
+      });
+    }
+    grid.appendChild(btn);
+  }
+
+  renderHolidayList();
+}
+
+function renderHolidayList() {
+  const list = loadHolidays();
+  const el   = document.getElementById('hol-list');
+  if (list.length === 0) {
+    el.innerHTML = '<span style="font-size:0.8rem;color:var(--text-light)">登録なし</span>';
+    return;
+  }
+  el.innerHTML = list.map(d => {
+    const [y, m, day] = d.split('-').map(Number);
+    return `<span class="hol-tag" data-date="${d}">${y}/${m}/${day} <span style="font-size:0.9em">✕</span></span>`;
+  }).join('');
+
+  el.querySelectorAll('.hol-tag').forEach(tag => {
+    tag.addEventListener('click', () => {
+      const updated = loadHolidays().filter(x => x !== tag.dataset.date);
+      saveHolidays(updated);
+      renderHolidayCal();
+    });
   });
 }
 
