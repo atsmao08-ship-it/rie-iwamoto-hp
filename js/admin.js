@@ -352,6 +352,12 @@ const START_HOUR  = 9;
 const END_HOUR    = 19;
 const TOTAL_HOURS = END_HOUR - START_HOUR;
 
+// 時刻文字列 "HH:MM" を小数時間に変換（例: "9:30" → 9.5）
+function parseTimeToDecimal(timeStr) {
+  const parts = (timeStr || '9:00').split(':').map(Number);
+  return parts[0] + (parts[1] || 0) / 60;
+}
+
 // メニュー名から施術時間（時間）を返す
 function getMenuDuration(menu) {
   if (!menu) return 1;
@@ -435,12 +441,15 @@ function renderSchedule() {
     dayCol.dataset.date = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
     dayCol.style.height = TOTAL_PX + 'px';
 
-    // 時間グリッド線
-    for (let i = 0; i <= TOTAL_HOURS; i++) {
+    // 時間グリッド線（30分刻み）
+    for (let i = 0; i <= TOTAL_HOURS * 2; i++) {
       const line = document.createElement('div');
       line.className = 'schedule-hour-line';
-      line.style.top = (i * HOUR_HEIGHT) + 'px';
-      line.style.borderTop = `1px solid ${i === 0 ? 'var(--ivory-deep)' : 'rgba(232,221,208,0.45)'}`;
+      line.style.top = (i * HOUR_HEIGHT / 2) + 'px';
+      const isHour = i % 2 === 0;
+      line.style.borderTop = isHour
+        ? `1px solid ${i === 0 ? 'var(--ivory-deep)' : 'rgba(232,221,208,0.55)'}`
+        : '1px dashed rgba(232,221,208,0.28)';
       dayCol.appendChild(line);
     }
 
@@ -453,7 +462,7 @@ function renderSchedule() {
     });
 
     dayRes.forEach(r => {
-      const startH   = parseInt(r.desiredTime) || 9;
+      const startH   = parseTimeToDecimal(r.desiredTime);   // "9:30" → 9.5
       const duration = getMenuDuration(r.menu);
       const top      = (startH - START_HOUR) * HOUR_HEIGHT + 2;
       const height   = Math.max(duration * HOUR_HEIGHT - 4, 28);
@@ -560,12 +569,15 @@ function endDrag(e) {
     });
 
     if (targetDate && targetCol) {
-      // Y 座標から時間を計算してスナップ
-      const colRect = targetCol.getBoundingClientRect();
-      const rawY    = e.clientY - colRect.top;
-      const snappedSlot = Math.max(0, Math.min(Math.round(rawY / HOUR_HEIGHT), TOTAL_HOURS - 1));
-      const newHour = START_HOUR + snappedSlot;
-      const newTime = `${newHour}:00`;
+      // Y 座標から時間を計算して30分スナップ
+      const colRect  = targetCol.getBoundingClientRect();
+      const rawY     = e.clientY - colRect.top;
+      const SLOT_PX  = HOUR_HEIGHT / 2;  // 1スロット = 30分 = 32px
+      const maxSlots = TOTAL_HOURS * 2 - 1;
+      const snappedSlot = Math.max(0, Math.min(Math.round(rawY / SLOT_PX), maxSlots));
+      const slotHour = START_HOUR + Math.floor(snappedSlot / 2);
+      const slotMin  = (snappedSlot % 2) * 30;
+      const newTime  = `${slotHour}:${String(slotMin).padStart(2, '0')}`;
 
       // localStorage 更新
       const reservations = loadReservations();
