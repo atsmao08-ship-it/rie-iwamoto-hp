@@ -57,6 +57,10 @@
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
           売上分析
         </button>
+        <button class="sidebar-link" data-tab="holidays">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="15" x2="16" y2="15"/></svg>
+          休日管理
+        </button>
       </nav>
       <div class="sidebar-footer">
         <a href="index.html" class="sidebar-public-link">← 公開サイト</a>
@@ -170,6 +174,29 @@
             <h3 class="chart-title">メニュー別売上</h3>
             <div class="chart-wrap chart-pie"><canvas id="chart-menu"></canvas></div>
           </div>
+        </div>
+      </div>
+
+      <!-- ===== HOLIDAYS TAB ===== -->
+      <div class="tab-content" id="tab-holidays">
+        <div class="tab-header">
+          <h2 class="tab-heading">休日管理</h2>
+          <div class="holiday-month-nav">
+            <button class="week-btn" id="hol-prev">&#8249;</button>
+            <span id="hol-month-label" style="font-size:0.9rem;color:var(--text-mid);min-width:7em;text-align:center"></span>
+            <button class="week-btn" id="hol-next">&#8250;</button>
+          </div>
+        </div>
+        <p style="font-size:0.82rem;color:var(--text-light);margin-bottom:1rem;">日付をタップすると休日（予約不可）に設定できます。もう一度タップで解除。</p>
+        <div class="holiday-cal-wrap">
+          <div class="holiday-cal-head">
+            <span>月</span><span>火</span><span>水</span><span>木</span><span>金</span><span>土</span><span>日</span>
+          </div>
+          <div class="holiday-cal-grid" id="hol-cal-grid"></div>
+        </div>
+        <div style="margin-top:1.25rem;">
+          <p style="font-size:0.82rem;color:var(--text-mid);margin-bottom:0.5rem;">登録済み休日：</p>
+          <div id="hol-list" style="display:flex;flex-wrap:wrap;gap:0.4rem;"></div>
         </div>
       </div>
 
