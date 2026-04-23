@@ -168,14 +168,15 @@ function renderCalendar() {
     dayEl.textContent = d;
 
     const dow = date.getDay();
-    const isPast = date < now;
-    const isSunday = dow === 0;
+    const isPast    = date < now;
+    const isHolidayDay = isHoliday(date);
 
     if (dow === 6) dayEl.classList.add('saturday');
-    if (isSunday) dayEl.classList.add('sunday');
+    if (dow === 0) dayEl.classList.add('sunday');
     if (date.toDateString() === now.toDateString()) dayEl.classList.add('today');
+    if (isHolidayDay) dayEl.classList.add('holiday');
 
-    if (isPast || isSunday) {
+    if (isPast || isHolidayDay) {
       dayEl.classList.add('disabled');
       dayEl.disabled = true;
     } else {
@@ -192,6 +193,16 @@ function renderCalendar() {
     }
     grid.appendChild(dayEl);
   }
+}
+
+// 管理画面で登録された休日を読み込む
+function loadHolidays() {
+  try { return JSON.parse(localStorage.getItem('rie_holidays') || '[]'); }
+  catch { return []; }
+}
+function isHoliday(date) {
+  const str = `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
+  return loadHolidays().includes(str);
 }
 
 async function selectDate(date, el) {
@@ -238,62 +249,11 @@ function getNewBookingDuration() {
   return 1;
 }
 
-// ── スケジュールの空きを分析しておすすめスロットを返す ──
-function calcRecommendedSlots(bookings, newDuration) {
-  if (!bookings || bookings.length === 0) return new Set();
-
-  const recommended = new Set();
-
-  // 既存予約のブロック範囲
-  function isHourBlocked(h) {
-    return bookings.some(b => h >= b.startHour && h < b.endHour);
-  }
-  function isRangeFree(startH, duration) {
-    for (let h = startH; h < startH + duration; h += 0.5) {
-      if (isHourBlocked(h)) return false;
-    }
-    return true;
-  }
-
-  timeSlots.forEach(t => {
-    const h = timeToHour(t);               // "9:30" → 9.5 など小数時間に変換
-    if (isHourBlocked(h)) return;          // すでに予約済み
-    if (!isRangeFree(h, newDuration)) return; // 施術時間が収まらない
-
-    const newEnd = h + newDuration;
-    let score = 0;
-
-    // ★ 直前に予約が終わる → 連続で入れられる
-    const prevEnds = bookings.find(b => Math.abs(b.endHour - h) < 0.1);
-    if (prevEnds) score += 5;
-
-    // ★ 直後に予約が始まる → ぴったり埋まる
-    const nextStarts = bookings.find(b => Math.abs(b.startHour - newEnd) < 0.1);
-    if (nextStarts) score += 5;
-
-    // ★ 前後どちらもぴったり → 完璧に穴埋め
-    if (prevEnds && nextStarts) score += 3;
-
-    // ✗ 中途半端な隙間が生まれる（30分未満）
-    const nextAfter = bookings
-      .filter(b => b.startHour > h)
-      .sort((a, b) => a.startHour - b.startHour)[0];
-    if (nextAfter) {
-      const gap = nextAfter.startHour - newEnd;
-      if (gap > 0 && gap < 0.5) score -= 5; // 30分未満の隙間は避ける
-    }
-    const prevBefore = bookings
-      .filter(b => b.endHour <= h)
-      .sort((a, b) => b.endHour - a.endHour)[0];
-    if (prevBefore) {
-      const gap = h - prevBefore.endHour;
-      if (gap > 0 && gap < 0.5) score -= 5;
-    }
-
-    if (score >= 4) recommended.add(t);
-  });
-
-  return recommended;
+// 小数時間 → "HH:MM" 文字列変換（例: 9.5 → "9:30"）
+function hourToTimeStr(decimal) {
+  const h = Math.floor(decimal);
+  const m = Math.round((decimal % 1) * 60);
+  return `${h}:${String(m).padStart(2, '0')}`;
 }
 
 document.getElementById('cal-prev').addEventListener('click', () => {
@@ -327,40 +287,67 @@ function renderTimeSlots(bookedSlots = [], bookings = []) {
   note.style.display = 'none';
   grid.innerHTML = '';
 
-  const newDuration     = getNewBookingDuration();
-  const recommendedSet  = calcRecommendedSlots(bookings, newDuration);
-  const hasRecommended  = recommendedSet.size > 0;
+  // ── 今日かどうかチェック（過去スロット無効化用）──
+  const now = new Date();
+  const isToday = state.date &&
+    state.date.getFullYear() === now.getFullYear() &&
+    state.date.getMonth()    === now.getMonth()    &&
+    state.date.getDate()     === now.getDate();
+  const nowDecimal = now.getHours() + now.getMinutes() / 60; // 例: 9:24 → 9.4
 
-  // おすすめがある場合はヒント表示
-  if (hasRecommended) {
-    const hint = document.createElement('p');
-    hint.className = 'timeslot-hint';
-    hint.textContent = '★ のついた時間帯はスケジュールの空きを埋めるのに最適です';
-    grid.appendChild(hint);
+  // スロットが選択不可か判定
+  function isDisabled(t) {
+    if (bookedSlots.includes(t)) return true;
+    if (isToday && timeToHour(t) <= nowDecimal) return true;
+    return false;
+  }
+
+  // 施術時間が丸ごと収まるか確認
+  const newDuration = getNewBookingDuration();
+  function canFit(startSlot) {
+    const startH = timeToHour(startSlot);
+    for (let h = startH; h < startH + newDuration; h += 0.5) {
+      const s = hourToTimeStr(h);
+      if (!timeSlots.includes(s) || isDisabled(s)) return false;
+    }
+    return true;
+  }
+
+  // ★ おすすめ = 施術時間が収まる中で最も早い空きスロット1つ
+  let recommendedSlot = null;
+  for (const t of timeSlots) {
+    if (!isDisabled(t) && canFit(t)) {
+      recommendedSlot = t;
+      break;
+    }
   }
 
   timeSlots.forEach(t => {
-    const btn           = document.createElement('button');
-    btn.type            = 'button';
-    const isBooked      = bookedSlots.includes(t);
-    const isRecommended = !isBooked && recommendedSet.has(t);
+    const btn    = document.createElement('button');
+    btn.type     = 'button';
+    const booked = bookedSlots.includes(t);
+    const past   = isToday && timeToHour(t) <= nowDecimal && !booked;
+    const disabled     = booked || past;
+    const isRecommended = !disabled && t === recommendedSlot;
 
     btn.className = 'timeslot-btn' +
-      (isBooked      ? ' booked'      : '') +
+      (booked        ? ' booked'      : '') +
+      (past          ? ' past'        : '') +
       (isRecommended ? ' recommended' : '');
 
-    if (isBooked) {
+    if (booked) {
       btn.textContent = `${t} 予約済`;
     } else if (isRecommended) {
       btn.innerHTML = `★ ${t} <span class="recommend-label">おすすめ</span>`;
     } else {
       btn.textContent = t;
     }
-    btn.disabled = isBooked;
+
+    btn.disabled = disabled;
 
     if (t === state.time) btn.classList.add('selected');
 
-    if (!isBooked) {
+    if (!disabled) {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.timeslot-btn.selected').forEach(b => b.classList.remove('selected'));
         btn.classList.add('selected');
