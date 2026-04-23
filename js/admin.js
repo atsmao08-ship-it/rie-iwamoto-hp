@@ -463,9 +463,15 @@ function renderSchedule() {
 
     dayRes.forEach(r => {
       const startH   = parseTimeToDecimal(r.desiredTime);   // "9:30" → 9.5
-      const duration = getMenuDuration(r.menu);
+      const duration = r.customDuration || getMenuDuration(r.menu); // カスタム時間優先
       const top      = (startH - START_HOUR) * HOUR_HEIGHT + 2;
       const height   = Math.max(duration * HOUR_HEIGHT - 4, 28);
+
+      // 終了時刻を表示用に計算
+      const endDecimal = startH + duration;
+      const endH = Math.floor(endDecimal);
+      const endM = Math.round((endDecimal % 1) * 60);
+      const endTimeStr = `${endH}:${String(endM).padStart(2, '0')}`;
 
       const ev = document.createElement('div');
       ev.className = `schedule-event ${r.status}`;
@@ -473,17 +479,26 @@ function renderSchedule() {
       ev.style.top   = top + 'px';
       ev.style.height = height + 'px';
       ev.innerHTML = `
-        <div class="sch-ev-time">${r.desiredTime}</div>
+        <div class="sch-ev-time">${r.desiredTime}〜${endTimeStr}</div>
         <div class="sch-ev-name">${r.name}</div>
         <div class="sch-ev-menu">${r.menu}</div>
+        <div class="sch-ev-resize" title="ドラッグで施術時間を調整"></div>
       `;
 
       // クリックで詳細モーダル（ドラッグ判定後）
       ev.addEventListener('click', (e) => {
-        if (!dragMoved) openModal(r.id);
+        if (!dragMoved && !resizeMoved) openModal(r.id);
       });
-      // ドラッグ開始
-      ev.addEventListener('mousedown', (e) => startDrag(e, r, ev, dayCol));
+      // ドラッグ開始（リサイズハンドル以外）
+      ev.addEventListener('mousedown', (e) => {
+        if (e.target.classList.contains('sch-ev-resize')) return;
+        startDrag(e, r, ev, dayCol);
+      });
+      // リサイズ開始
+      ev.querySelector('.sch-ev-resize').addEventListener('mousedown', (e) => {
+        e.stopPropagation();
+        startResize(e, r, ev);
+      });
       dayCol.appendChild(ev);
     });
 
@@ -605,6 +620,87 @@ function endDrag(e) {
 
   dragData  = null;
   dragMoved = false;
+}
+
+// ============================================
+// リサイズ（予約バーの下端ドラッグで施術時間を変更）
+// ============================================
+let resizeMoved = false;
+let resizeData  = null;
+
+function startResize(e, reservation, el) {
+  if (e.button !== 0) return;
+  resizeMoved = false;
+
+  resizeData = {
+    reservation,
+    el,
+    startY:      e.clientY,
+    startHeight: el.getBoundingClientRect().height,
+  };
+
+  el.classList.add('resizing');
+  document.addEventListener('mousemove', onResize);
+  document.addEventListener('mouseup',   endResize);
+  e.preventDefault();
+}
+
+function onResize(e) {
+  if (!resizeData) return;
+  const { el, startY, startHeight } = resizeData;
+  const dy = e.clientY - startY;
+  if (Math.abs(dy) > 3) resizeMoved = true;
+  if (!resizeMoved) return;
+
+  // 30分グリッドにスナップ
+  const SLOT_PX     = HOUR_HEIGHT / 2;
+  const rawHeight   = Math.max(startHeight + dy, SLOT_PX);
+  const snappedH    = Math.round(rawHeight / SLOT_PX) * SLOT_PX;
+  el.style.height   = snappedH + 'px';
+
+  // 終了時刻をリアルタイム更新
+  const startH      = parseTimeToDecimal(resizeData.reservation.desiredTime);
+  const newDuration = snappedH / HOUR_HEIGHT;
+  const endDecimal  = startH + newDuration;
+  const endH        = Math.floor(endDecimal);
+  const endM        = Math.round((endDecimal % 1) * 60);
+  const timeEl      = el.querySelector('.sch-ev-time');
+  if (timeEl) timeEl.textContent = `${resizeData.reservation.desiredTime}〜${endH}:${String(endM).padStart(2,'0')}`;
+}
+
+function endResize(e) {
+  document.removeEventListener('mousemove', onResize);
+  document.removeEventListener('mouseup',   endResize);
+  if (!resizeData) return;
+
+  const { reservation, el } = resizeData;
+  el.classList.remove('resizing');
+
+  if (resizeMoved) {
+    const SLOT_PX     = HOUR_HEIGHT / 2;
+    const newHeight   = parseFloat(el.style.height);
+    const newDuration = Math.max(0.5, Math.round(newHeight / SLOT_PX) * 0.5);
+
+    // localStorage に保存
+    const reservations = loadReservations();
+    const idx = reservations.findIndex(r => r.id === reservation.id);
+    if (idx !== -1) {
+      reservations[idx].customDuration = newDuration;
+      saveReservations(reservations);
+
+      // 時間表示用テキスト
+      const hours = Math.floor(newDuration);
+      const mins  = Math.round((newDuration % 1) * 60);
+      const durationText = hours > 0
+        ? `${hours}時間${mins > 0 ? mins + '分' : ''}`
+        : `${mins}分`;
+      showToast(`${reservation.name} の施術時間を ${durationText} に変更しました`);
+    }
+    renderSchedule();
+  }
+
+  resizeData  = null;
+  resizeMoved = false;
 }
 
 // 日時変更をスプレッドシートに反映
