@@ -389,22 +389,13 @@ input, textarea, select { font-family: inherit; }
 .concept-img-placeholder {
   width: 100%;
   padding-bottom: 120%;
-  background: linear-gradient(135deg, var(--sage-muted) 0%, var(--ivory-deep) 100%);
+  background: url('https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=80') center center / cover no-repeat;
   border-radius: var(--radius-md);
   position: relative;
   overflow: hidden;
 }
 .concept-img-placeholder::before {
-  content: 'PHOTO';
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 0.7rem;
-  letter-spacing: 0.3em;
-  color: var(--text-light);
+  content: '';
 }
 .concept-ornament {
   position: absolute;
