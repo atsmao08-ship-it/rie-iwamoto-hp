@@ -256,7 +256,7 @@ function calcRecommendedSlots(bookings, newDuration) {
   }
 
   timeSlots.forEach(t => {
-    const h = parseInt(t);
+    const h = timeToHour(t);               // "9:30" → 9.5 など小数時間に変換
     if (isHourBlocked(h)) return;          // すでに予約済み
     if (!isRangeFree(h, newDuration)) return; // 施術時間が収まらない
 
@@ -274,20 +274,20 @@ function calcRecommendedSlots(bookings, newDuration) {
     // ★ 前後どちらもぴったり → 完璧に穴埋め
     if (prevEnds && nextStarts) score += 3;
 
-    // ✗ 中途半端な隙間が生まれる（1時間未満）
+    // ✗ 中途半端な隙間が生まれる（30分未満）
     const nextAfter = bookings
       .filter(b => b.startHour > h)
       .sort((a, b) => a.startHour - b.startHour)[0];
     if (nextAfter) {
       const gap = nextAfter.startHour - newEnd;
-      if (gap > 0 && gap < 1) score -= 5; // 小さな隙間は避ける
+      if (gap > 0 && gap < 0.5) score -= 5; // 30分未満の隙間は避ける
     }
     const prevBefore = bookings
       .filter(b => b.endHour <= h)
       .sort((a, b) => b.endHour - a.endHour)[0];
     if (prevBefore) {
       const gap = h - prevBefore.endHour;
-      if (gap > 0 && gap < 1) score -= 5;
+      if (gap > 0 && gap < 0.5) score -= 5;
     }
 
     if (score >= 4) recommended.add(t);
@@ -307,8 +307,19 @@ document.getElementById('cal-next').addEventListener('click', () => {
   renderCalendar();
 });
 
-// ── 時間帯 ──
-const timeSlots = ['9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
+// ── 時間帯（30分刻み）──
+const timeSlots = [
+  '9:00','9:30','10:00','10:30','11:00','11:30',
+  '12:00','12:30','13:00','13:30','14:00','14:30',
+  '15:00','15:30','16:00','16:30','17:00','17:30',
+  '18:00','18:30',
+];
+
+// 時刻文字列 "HH:MM" を小数時間に変換（例: "9:30" → 9.5）
+function timeToHour(t) {
+  const [h, m] = t.split(':').map(Number);
+  return h + (m || 0) / 60;
+}
 
 function renderTimeSlots(bookedSlots = [], bookings = []) {
   const grid = document.getElementById('timeslot-grid');
