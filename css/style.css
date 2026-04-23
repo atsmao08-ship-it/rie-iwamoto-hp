@@ -378,10 +378,9 @@ input, textarea, select { font-family: inherit; }
    CONCEPT
    ============================================ */
 .concept-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 5rem;
-  align-items: center;
+  display: block;
+  max-width: 720px;
+  margin: 0 auto;
 }
 .concept-img-wrap {
   position: relative;
@@ -1268,7 +1267,7 @@ input, textarea, select { font-family: inherit; }
    RESPONSIVE
    ============================================ */
 @media (max-width: 1024px) {
-  .concept-grid { gap: 3rem; }
+  /* .concept-grid gap removed */
   .access-grid { gap: 2rem; }
 }
 
@@ -1306,9 +1305,6 @@ input, textarea, select { font-family: inherit; }
   .hero-actions { flex-direction: column; align-items: center; }
 
   /* Concept */
-  .concept-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-  .concept-img-placeholder { padding-bottom: 70%; }
-  .concept-img-wrap::after { display: none; }
 
   /* Menu */
   .menu-item { flex-wrap: wrap; }
